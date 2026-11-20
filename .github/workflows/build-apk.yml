@@ -50,7 +50,7 @@ jobs:
           mkdir -p build/www
           cd build
           npm init -y > /dev/null
-          npm i --no-audit --no-fund @capacitor/core@7 @capacitor/android@7 @capacitor/browser@7 @capacitor/app@7
+          npm i --no-audit --no-fund @capacitor/core@7 @capacitor/android@7 @capacitor/browser@7 @capacitor/app@7 @capacitor/local-notifications@7 @capacitor/filesystem@7
           npm i --no-audit --no-fund -D @capacitor/cli@7
           cp ../familie.html www/index.html
           sed -i 's/const APP_BUILD = 0;/const APP_BUILD = ${{ github.run_number }};/' www/index.html
@@ -59,6 +59,10 @@ jobs:
           cp ../assets/icon.svg www/icon.svg
           echo '{"appId":"de.mrdocmoris.familie","appName":"Familien-Multiversum","webDir":"www"}' > capacitor.config.json
           npx cap add android
+          # Berechtigungen: Erinnerungen (genaue Uhrzeit) und Sicherung in "Dokumente" (ältere Android-Versionen)
+          M=android/app/src/main/AndroidManifest.xml
+          sed -i 's#<application#<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />\n    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />\n    <application android:requestLegacyExternalStorage="true"#' $M
+          grep -q SCHEDULE_EXACT_ALARM $M && grep -q requestLegacyExternalStorage $M
           sed -i 's/versionCode 1$/versionCode ${{ github.run_number }}/; s/versionName "1.0"/versionName "1.${{ github.run_number }}"/' android/app/build.gradle
           # Immer mit dem festen Schlüssel aus dem Repo signieren (sonst scheitern Updates)
           cat >> android/app/build.gradle << 'GRADLE'

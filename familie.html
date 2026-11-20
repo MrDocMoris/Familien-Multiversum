@@ -425,15 +425,17 @@ function openSettings(){
 async function checkUpdate(manual){
   if(!APP_BUILD && !manual) return; // Browser-Fassung ohne Build-Nummer
   try{
-    const r = await fetch(UPDATE_INFO + '?t=' + Date.now(), {cache:'no-store'});
-    if(!r.ok) throw new Error(r.status);
+    let r;
+    try{ r = await fetch(UPDATE_INFO + '?t=' + Date.now(), {cache:'no-store'}); }
+    catch(e){ if(manual) toast('Keine Verbindung – bist du online?'); return; }
+    if(!r.ok){ if(manual) toast(r.status === 404 ? 'Update-Info nicht gefunden – ist das GitHub-Repo öffentlich?' : `Update-Server antwortet nicht (Fehler ${r.status})`); return; }
     const v = await r.json(); // {build, notes, size, apk}
     const build = parseInt(v.build, 10);
     S.update = (build > APP_BUILD && v.apk) ? {build, url:v.apk, notes:v.notes || '', size:v.size} : null;
     renderUpdateInfo();
     if(S.update){ if(manual || store('fm_upd_skip') !== build) showUpdateSheet(); }
     else if(manual) toast('Du hast die neueste Version');
-  }catch(e){ if(manual) toast('Update-Prüfung fehlgeschlagen – Internet?'); }
+  }catch(e){ if(manual) toast('Update-Info ist fehlerhaft'); }
 }
 function renderUpdateInfo(){
   const el = $('#upd-info'); if(!el) return;

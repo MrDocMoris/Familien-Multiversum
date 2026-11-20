@@ -1,7 +1,7 @@
 {
-  "build": 4,
-  "version": "1.4",
-  "size": 5103252,
-  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.4/Familien-Multiversum.apk",
-  "notes": "Neu: Listen wie bei FamilyWall (Einkauf, To-dos, eigene Listen)"
+  "build": 5,
+  "version": "1.5",
+  "size": 5103356,
+  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.5/Familien-Multiversum.apk",
+  "notes": "Genauere Meldung, wenn die Update-Prüfung scheitert"
 }

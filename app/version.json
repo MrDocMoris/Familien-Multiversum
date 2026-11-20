@@ -1,7 +1,7 @@
 {
-  "build": 7,
-  "version": "1.7",
-  "size": 5107090,
-  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.7/Familien-Multiversum.apk",
-  "notes": "Neu: Geburtstage mit Alter und Sichtbarkeit (wir beide / nur für mich)"
+  "build": 8,
+  "version": "1.8",
+  "size": 5261954,
+  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.8/Familien-Multiversum.apk",
+  "notes": "Neu: Erinnerungen, automatische Sicherung und mehrtägige Termine"
 }

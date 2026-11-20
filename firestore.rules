@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isMember(familyId) {
+      return signedIn() &&
+        request.auth.uid in get(/databases/$(database)/documents/families/$(familyId)).data.members;
+    }
+
+    // Eigenes Profil: nur selbst lesen/schreiben
+    match /users/{uid} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+    }
+
+    // Einladungscodes: Angemeldete dürfen einzelne Codes nachschlagen, nicht auflisten
+    match /invites/{code} {
+      allow get: if signedIn();
+      allow create: if signedIn();
+    }
+
+    match /families/{familyId} {
+      allow read: if isMember(familyId);
+      allow create: if signedIn() && request.resource.data.members == [request.auth.uid];
+      // Mitglieder dürfen alles ändern; Nicht-Mitglieder dürfen sich NUR selbst hinzufügen (Beitritt per Code)
+      allow update: if isMember(familyId) || (
+        signedIn() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members']) &&
+        request.resource.data.members.hasAll(resource.data.members) &&
+        request.resource.data.members.removeAll(resource.data.members).hasOnly([request.auth.uid])
+      );
+
+      match /events/{eventId} {
+        allow read, write: if isMember(familyId);
+      }
+    }
+  }
+}

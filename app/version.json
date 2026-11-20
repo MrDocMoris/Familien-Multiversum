@@ -1,7 +1,7 @@
 {
-  "build": 6,
-  "version": "1.6",
-  "size": 5105148,
-  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.6/Familien-Multiversum.apk",
-  "notes": "Neu: Feiertage und Schulferien NRW im Kalender"
+  "build": 7,
+  "version": "1.7",
+  "size": 5107090,
+  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.7/Familien-Multiversum.apk",
+  "notes": "Neu: Geburtstage mit Alter und Sichtbarkeit (wir beide / nur für mich)"
 }

@@ -1,7 +1,7 @@
 {
-  "build": 3,
-  "version": "1.3",
-  "size": 5098503,
-  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.3/Familien-Multiversum.apk",
-  "notes": "Neu im Stil von TCG Multiversum: HTML-App mit Capacitor"
+  "build": 4,
+  "version": "1.4",
+  "size": 5103252,
+  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.4/Familien-Multiversum.apk",
+  "notes": "Neu: Listen wie bei FamilyWall (Einkauf, To-dos, eigene Listen)"
 }

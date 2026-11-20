@@ -227,7 +227,7 @@ if(NATIVE){
 /* ================= Daten (offline, auf dem Gerät) ================= */
 const S = {
   events: store('fm_events') || [],
-  cfg: Object.assign({nameA:'Ich', nameB:'Meine Frau', colorA:'#7fe3ff', colorB:'#e59bff', showHol:true, showFer:true}, store('fm_cfg') || {}),
+  cfg: Object.assign({nameA:'Ich', nameB:'Meine Frau', colorA:'#7fe3ff', colorB:'#e59bff', showHol:true, showFer:true, me:'a'}, store('fm_cfg') || {}),
   month: null, sel: null, update: null,
 };
 const saveEvents = () => store('fm_events', S.events);
@@ -260,7 +260,12 @@ function occursOn(ev, ds){
   }
 }
 const sortEv = (a, b) => (b.allDay - a.allDay) || (a.start || '').localeCompare(b.start || '') || a.title.localeCompare(b.title);
-const eventsOn = ds => S.events.filter(e => occursOn(e, ds)).sort(sortEv);
+// Sichtbarkeit: 'both' = beide, 'a'/'b' = nur diese Person (auf ihrem Handy)
+const visible = e => !e.vis || e.vis === 'both' || e.vis === S.cfg.me;
+const meName = () => S.cfg.me === 'b' ? S.cfg.nameB : S.cfg.nameA;
+const eventsOn = ds => S.events.filter(e => visible(e) && occursOn(e, ds)).sort(sortEv);
+const BDAY_COLOR = 'linear-gradient(180deg,#ffd23f,#ff8a3d)';
+function ageOn(e, ds){ return (e.type === 'bday' && !e.noYear) ? +ds.slice(0, 4) - +e.date.slice(0, 4) : null; }
 const whoColor = w => w === 'a' ? 'var(--pa)' : w === 'b' ? 'var(--pb)' : 'linear-gradient(180deg,var(--pa),var(--pb))';
 const whoName = w => w === 'a' ? S.cfg.nameA : w === 'b' ? S.cfg.nameB : 'Beide';
 
@@ -355,10 +360,10 @@ function renderMonth(){
     const d = new Date(start); d.setDate(start.getDate() + i);
     if(i >= 35 && d.getMonth() !== m) break;
     const ds = ymd(d), evs = eventsOn(ds);
-    const who = [...new Set(evs.map(e => e.who))].slice(0, 3);
+    const who = [...new Set(evs.map(e => e.type === 'bday' ? 'bday' : e.who))].slice(0, 3);
     const hol = holidayOn(ds), fer = ferienOn(ds);
     const cls = ['day', d.getMonth() !== m && 'other', ds === t && 'today', ds === S.sel && 'sel', hol && 'hol', fer && 'fer'].filter(Boolean).join(' ');
-    html += `<button class="${cls}" data-d="${ds}"><span>${d.getDate()}</span><span class="dots">${who.map(w => `<i style="background:${whoColor(w)}"></i>`).join('')}</span></button>`;
+    html += `<button class="${cls}" data-d="${ds}"><span>${d.getDate()}</span><span class="dots">${who.map(w => `<i style="background:${w === 'bday' ? '#ffb13d' : whoColor(w)}"></i>`).join('')}</span></button>`;
   }
   $('#grid').innerHTML = html;
   $('#legend').innerHTML = (S.cfg.showHol ? '<span><i style="background:#ff9ab0"></i>Feiertag</span>' : '') + (S.cfg.showFer ? '<span><i style="background:rgba(125,255,181,.45)"></i>Schulferien NRW</span>' : '');
@@ -366,9 +371,17 @@ function renderMonth(){
 }
 
 function evRow(e, ds, showDate){
+  const lock = e.vis && e.vis !== 'both' ? (e.vis === S.cfg.me ? '🔒 nur für dich' : '🔒 nur ' + (e.vis === 'b' ? S.cfg.nameB : S.cfg.nameA)) : '';
+  if(e.type === 'bday'){
+    const age = ageOn(e, ds);
+    const meta = [age !== null && age > 0 ? `wird ${age}` : 'Geburtstag', lock].filter(Boolean).map(esc).join(' · ');
+    return `<button class="ev" data-id="${esc(e.id)}" data-d="${ds}"><span class="bar" style="background:${BDAY_COLOR}"></span>
+    <span class="tm" style="font-size:24px;line-height:1.2">🎂</span>
+    <span class="mid">${showDate ? `<div class="dt">${esc(fmtShort(ds))}</div>` : ''}<div class="nm">${esc(e.title)}</div><div class="meta">${meta}</div>${e.note ? `<div class="note">${esc(e.note)}</div>` : ''}</span></button>`;
+  }
   const time = e.allDay ? '<span style="font-size:12px;font-weight:500">ganztägig</span>' : esc(e.start || '');
   const sub = e.allDay ? '' : (e.end ? `<small>bis ${esc(e.end)}</small>` : '');
-  const meta = [whoName(e.who), e.repeat && e.repeat !== 'none' ? '↻ ' + REPEAT[e.repeat] : ''].filter(Boolean).map(esc).join(' · ');
+  const meta = [whoName(e.who), e.repeat && e.repeat !== 'none' ? '↻ ' + REPEAT[e.repeat] : '', lock].filter(Boolean).map(esc).join(' · ');
   return `<button class="ev" data-id="${esc(e.id)}" data-d="${ds}"><span class="bar" style="background:${whoColor(e.who)}"></span>
     <span class="tm">${time}${sub}</span>
     <span class="mid">${showDate ? `<div class="dt">${esc(fmtShort(ds))}</div>` : ''}<div class="nm">${esc(e.title)}</div><div class="meta">${meta}</div>${e.note ? `<div class="note">${esc(e.note)}</div>` : ''}</span></button>`;
@@ -411,12 +424,15 @@ $('#fab').onclick = () => editEvent(null);
 function editEvent(id){
   const ex = id ? S.events.find(e => e.id === id) : null;
   const now = new Date(), h = Math.min(now.getHours() + 1, 22);
-  const f = ex ? {...ex} : {title:'', date:S.sel, allDay:false, start:`${pad2(h)}:00`, end:`${pad2(h + 1)}:00`, who:'both', repeat:'none', note:''};
+  const f = ex ? {type:'event', vis:'both', ...ex} : {type:'event', vis:'both', title:'', date:S.sel, allDay:false, start:`${pad2(h)}:00`, end:`${pad2(h + 1)}:00`, who:'both', repeat:'none', note:''};
+  const meKey = S.cfg.me === 'b' ? 'b' : 'a';
   openSheet(`
-    <h2>${ex ? 'Termin bearbeiten' : 'Neuer Termin'}</h2>
-    <label class="f">Titel</label><input type="text" id="e-title" maxlength="80" placeholder="z. B. Zahnarzt, Geburtstag Oma …" value="${esc(f.title)}">
-    <label class="f">Datum</label><input type="date" id="e-date" value="${esc(f.date)}">
-    <div class="sw"><span>Ganztägig</span><button class="tog${f.allDay ? ' on' : ''}" id="e-all" aria-label="Ganztägig"></button></div>
+    <h2 id="e-h">${ex ? 'Bearbeiten' : 'Neu'}</h2>
+    <div class="seg" id="e-type"><button data-k="event" class="${f.type !== 'bday' ? 'on' : ''}">📅 Termin</button><button data-k="bday" class="${f.type === 'bday' ? 'on' : ''}">🎂 Geburtstag</button></div>
+    <label class="f" id="e-tl">Titel</label><input type="text" id="e-title" maxlength="80" value="${esc(f.title)}">
+    <label class="f" id="e-dl">Datum</label><input type="date" id="e-date" value="${esc(f.date)}">
+    <div class="sw bd-only"><span>Geburtsjahr bekannt<br><small class="muted">dann zeigt die App das Alter an</small></span><button class="tog${f.noYear ? '' : ' on'}" id="e-year" aria-label="Geburtsjahr bekannt"></button></div>
+    <div class="ev-only"><div class="sw"><span>Ganztägig</span><button class="tog${f.allDay ? ' on' : ''}" id="e-all" aria-label="Ganztägig"></button></div>
     <div class="two" id="e-times" style="${f.allDay ? 'display:none' : ''}">
       <div><label class="f">Von</label><input type="time" id="e-start" value="${esc(f.start || '')}"></div>
       <div><label class="f">Bis</label><input type="time" id="e-end" value="${esc(f.end || '')}"></div>
@@ -425,9 +441,26 @@ function editEvent(id){
     <div class="seg" id="e-who">${[['a', S.cfg.nameA], ['b', S.cfg.nameB], ['both', 'Beide']].map(([k, n]) => `<button data-k="${k}" class="${f.who === k ? 'on' : ''}">${esc(n)}</button>`).join('')}</div>
     <label class="f">Wiederholen</label>
     <div class="seg" id="e-rep">${Object.entries(REPEAT_SHORT).map(([k, n]) => `<button data-k="${k}" class="${(f.repeat || 'none') === k ? 'on' : ''}">${n}</button>`).join('')}</div>
+    </div>
+    <label class="f">Wer sieht das?</label>
+    <div class="seg" id="e-vis"><button data-k="both" class="${f.vis === 'both' ? 'on' : ''}">👥 Wir beide</button><button data-k="${meKey}" class="${f.vis !== 'both' ? 'on' : ''}">🔒 Nur für mich</button></div>
     <label class="f">Notiz</label><textarea id="e-note" maxlength="500" placeholder="optional">${esc(f.note || '')}</textarea>
     <div class="btns"><button class="btn pri" id="e-save">Speichern</button><button class="btn" id="e-cancel">Abbrechen</button></div>
-    ${ex ? `<div class="btns" style="margin-top:8px"><button class="btn del" id="e-del">${ex.repeat && ex.repeat !== 'none' ? 'Ganze Serie löschen' : 'Termin löschen'}</button></div>` : ''}`);
+    ${ex ? `<div class="btns" style="margin-top:8px"><button class="btn del" id="e-del">Löschen</button></div>` : ''}`);
+  const applyType = () => {
+    const bd = f.type === 'bday';
+    $$('#sheet .bd-only').forEach(x => x.style.display = bd ? '' : 'none');
+    $$('#sheet .ev-only').forEach(x => x.style.display = bd ? 'none' : '');
+    $('#e-h').textContent = (ex ? '' : 'Neuer ') + (bd ? 'Geburtstag' : 'Termin') + (ex ? ' bearbeiten' : '');
+    $('#e-tl').textContent = bd ? 'Wessen Geburtstag?' : 'Titel';
+    $('#e-title').placeholder = bd ? 'z. B. Oma Gisela, Kollege Thomas …' : 'z. B. Zahnarzt, Elternabend …';
+    $('#e-dl').textContent = bd ? (f.noYear ? 'Geburtstag (Jahr egal)' : 'Geburtsdatum') : 'Datum';
+    if(ex) $('#e-del').textContent = bd ? 'Geburtstag löschen' : (f.repeat && f.repeat !== 'none' ? 'Ganze Serie löschen' : 'Termin löschen');
+  };
+  applyType();
+  $$('#e-type button').forEach(b => b.onclick = () => { f.type = b.dataset.k; $$('#e-type button').forEach(x => x.classList.toggle('on', x === b)); applyType(); });
+  $$('#e-vis button').forEach(b => b.onclick = () => { f.vis = b.dataset.k; $$('#e-vis button').forEach(x => x.classList.toggle('on', x === b)); });
+  $('#e-year').onclick = () => { f.noYear = !f.noYear; $('#e-year').classList.toggle('on', !f.noYear); applyType(); };
   if(!ex) setTimeout(() => $('#e-title').focus(), 260);
   $('#e-all').onclick = () => { f.allDay = !f.allDay; $('#e-all').classList.toggle('on', f.allDay); $('#e-times').style.display = f.allDay ? 'none' : ''; };
   $$('#e-who button').forEach(b => b.onclick = () => { f.who = b.dataset.k; $$('#e-who button').forEach(x => x.classList.toggle('on', x === b)); });
@@ -444,14 +477,19 @@ function editEvent(id){
   $('#e-save').onclick = () => {
     f.title = $('#e-title').value.trim(); f.date = $('#e-date').value; f.note = $('#e-note').value.trim();
     f.start = $('#e-start').value; f.end = $('#e-end').value;
-    if(!f.title){ toast('Bitte einen Titel eingeben'); $('#e-title').focus(); return; }
+    if(!f.title){ toast(f.type === 'bday' ? 'Bitte einen Namen eingeben' : 'Bitte einen Titel eingeben'); $('#e-title').focus(); return; }
     if(!f.date){ toast('Bitte ein Datum wählen'); return; }
+    if(f.type === 'bday'){
+      f.allDay = true; f.repeat = 'yearly'; f.who = 'both';
+      if(f.noYear){ const d = parse(f.date), cy = new Date().getFullYear(); // ohne Jahr: ab diesem Jahr jährlich
+        let ds = ymd(new Date(cy, d.getMonth(), d.getDate())); if(ds > todayStr()) ds = ymd(new Date(cy - 1, d.getMonth(), d.getDate())); f.date = ds; }
+    } else { delete f.noYear; }
     if(!f.allDay && !f.start){ toast('Bitte eine Uhrzeit wählen oder „Ganztägig“'); return; }
     if(!f.allDay && f.end && f.end < f.start){ toast('Das Ende liegt vor dem Beginn'); return; }
     if(f.allDay){ f.start = ''; f.end = ''; }
     if(ex){ Object.assign(ex, f, {changed:Date.now()}); }
     else S.events.push({...f, id:Date.now().toString(36) + Math.random().toString(36).slice(2, 7), created:Date.now()});
-    saveEvents(); closeSheet(); select(f.date); renderStats(); toast(ex ? 'Termin gespeichert' : 'Termin angelegt');
+    saveEvents(); closeSheet(); if(f.type === 'bday') renderAll(); else select(f.date); renderStats(); toast(f.type === 'bday' ? (f.vis === 'both' ? '🎂 Geburtstag gespeichert' : '🎂 Gespeichert – nur für dich sichtbar') : (ex ? 'Termin gespeichert' : 'Termin angelegt'));
   };
   if(ex) $('#e-del').onclick = () => {
     const b = $('#e-del');
@@ -468,6 +506,9 @@ function openSettings(){
     <h3 style="margin-top:4px">Personen</h3>
     <div class="set-row"><input type="text" id="s-na" maxlength="20" value="${esc(S.cfg.nameA)}"><input type="color" id="s-ca" value="${esc(S.cfg.colorA)}"></div>
     <div class="set-row"><input type="text" id="s-nb" maxlength="20" value="${esc(S.cfg.nameB)}"><input type="color" id="s-cb" value="${esc(S.cfg.colorB)}"></div>
+    <h3>Wem gehört dieses Handy?</h3>
+    <div class="seg" id="s-me"><button data-k="a" class="${S.cfg.me !== 'b' ? 'on' : ''}">${esc(S.cfg.nameA)}</button><button data-k="b" class="${S.cfg.me === 'b' ? 'on' : ''}">${esc(S.cfg.nameB)}</button></div>
+    <p class="muted" style="font-size:12px;margin:6px 0 0">Einträge mit „🔒 Nur …“ sieht nur diese Person.</p>
     <h3>Kalender</h3>
     <div class="sw" style="padding:8px 0"><span>Feiertage NRW anzeigen</span><button class="tog${S.cfg.showHol ? ' on' : ''}" id="s-hol"></button></div>
     <div class="sw" style="padding:8px 0"><span>Schulferien NRW anzeigen</span><button class="tog${S.cfg.showFer ? ' on' : ''}" id="s-fer"></button></div>
@@ -476,28 +517,41 @@ function openSettings(){
     <div class="set-row"><span>Termine gespeichert</span><b>${S.events.length}</b></div>
     <div class="set-row"><span>Listen / Einträge</span><b>${S.lists.length} / ${S.lists.reduce((n, l) => n + l.items.length, 0)}</b></div>
     <h3>Sicherung</h3>
-    <div class="btns" style="margin-top:6px"><button class="btn" id="s-exp">Sicherung kopieren</button><button class="btn" id="s-imp">Sicherung einfügen</button></div>
-    <p class="muted" style="font-size:12px;margin-top:10px">Termine und Listen liegen im Moment nur auf diesem Handy. Mit „Sicherung kopieren“ landet alles in der Zwischenablage, z. B. um es dir per WhatsApp zu schicken.</p>
+    <div class="btns" style="margin-top:6px"><button class="btn pri" id="s-share">Mit ${esc(S.cfg.me === 'b' ? S.cfg.nameA : S.cfg.nameB)} teilen</button></div>
+    <div class="btns" style="margin-top:8px"><button class="btn" id="s-exp">Komplette Sicherung</button><button class="btn" id="s-imp">Einfügen</button></div>
+    <p class="muted" style="font-size:12px;margin-top:10px">Termine und Listen liegen im Moment nur auf diesem Handy. „Teilen“ kopiert alles <b>ohne</b> deine privaten 🔒-Einträge – per WhatsApp schicken, auf dem anderen Handy „Einfügen“. Beim Einfügen wird zusammengeführt, nichts geht verloren.</p>
     <div class="btns"><button class="btn pri" id="s-ok">Fertig</button></div>`);
   renderUpdateInfo();
   const upd = () => { S.cfg.nameA = $('#s-na').value.trim() || 'Ich'; S.cfg.nameB = $('#s-nb').value.trim() || 'Partner'; S.cfg.colorA = $('#s-ca').value; S.cfg.colorB = $('#s-cb').value; saveCfg(); renderAll(); };
   ['#s-na', '#s-nb', '#s-ca', '#s-cb'].forEach(s => $(s).onchange = upd);
+  $$('#s-me button').forEach(b => b.onclick = () => { S.cfg.me = b.dataset.k; $$('#s-me button').forEach(x => x.classList.toggle('on', x === b)); saveCfg(); renderAll(); });
   $('#s-hol').onclick = () => { S.cfg.showHol = !S.cfg.showHol; $('#s-hol').classList.toggle('on', S.cfg.showHol); saveCfg(); renderAll(); };
   $('#s-fer').onclick = () => { S.cfg.showFer = !S.cfg.showFer; $('#s-fer').classList.toggle('on', S.cfg.showFer); saveCfg(); renderAll(); };
   $('#upd-check').onclick = () => { if(S.update) showUpdateSheet(); else checkUpdate(true); };
   $('#s-ok').onclick = () => { upd(); closeSheet(); };
-  $('#s-exp').onclick = async () => {
-    const data = JSON.stringify({app:'familien-multiversum', v:1, date:new Date().toISOString(), cfg:S.cfg, events:S.events, lists:S.lists});
-    try{ await navigator.clipboard.writeText(data); toast('Sicherung kopiert'); }
+  const doExport = async (share) => {
+    const evs = share ? S.events.filter(e => !e.vis || e.vis === 'both') : S.events;
+    const cfg = share ? {nameA:S.cfg.nameA, nameB:S.cfg.nameB, colorA:S.cfg.colorA, colorB:S.cfg.colorB} : S.cfg;
+    const data = JSON.stringify({app:'familien-multiversum', v:1, date:new Date().toISOString(), cfg, events:evs, lists:S.lists});
+    try{ await navigator.clipboard.writeText(data); toast(share ? 'Kopiert – jetzt per WhatsApp schicken' : 'Sicherung kopiert'); }
     catch(e){ openSheet(`<h2>Sicherung</h2><p class="muted">Text markieren und kopieren:</p><textarea style="min-height:200px" readonly>${esc(data)}</textarea><div class="btns"><button class="btn" onclick="closeSheet()">Schließen</button></div>`); }
   };
+  $('#s-exp').onclick = () => doExport(false);
+  $('#s-share').onclick = () => doExport(true);
   $('#s-imp').onclick = () => {
-    openSheet(`<h2>Sicherung einfügen</h2><p class="muted">Kopierten Sicherungs-Text hier einfügen. Vorhandene Termine werden ersetzt.</p>
+    openSheet(`<h2>Sicherung einfügen</h2><p class="muted">Kopierten Text hier einfügen. Neue Einträge kommen dazu, geänderte werden aktualisiert – deine eigenen bleiben erhalten.</p>
       <textarea id="imp-t" style="min-height:160px"></textarea><div class="btns"><button class="btn pri" id="imp-go">Wiederherstellen</button><button class="btn" id="imp-x">Abbrechen</button></div>`);
     $('#imp-x').onclick = closeSheet;
     $('#imp-go').onclick = () => {
       try{ const d = JSON.parse($('#imp-t').value); if(!Array.isArray(d.events)) throw 0;
-        S.events = d.events; if(Array.isArray(d.lists)){ S.lists = d.lists; saveLists(); } if(d.cfg) S.cfg = Object.assign(S.cfg, d.cfg); saveEvents(); saveCfg(); closeSheet(); renderAll(); toast(`${S.events.length} Termine wiederhergestellt`); }
+        const stamp = x => x.changed || x.created || 0;
+        const merge = (mine, theirs) => { const m = new Map(mine.map(x => [x.id, x])); let n = 0;
+          theirs.forEach(x => { const o = m.get(x.id); if(!o || stamp(x) >= stamp(o)){ if(!o) n++; m.set(x.id, x); } }); return [[...m.values()], n]; };
+        const me = S.cfg.me; let nE, nL;
+        [S.events, nE] = merge(S.events, d.events);
+        if(Array.isArray(d.lists)) [S.lists, nL] = merge(S.lists, d.lists);
+        if(d.cfg) S.cfg = Object.assign(S.cfg, d.cfg, {me});
+        saveEvents(); saveLists(); saveCfg(); closeSheet(); renderAll(); toast(`Eingefügt: ${nE} neue Termine${nL ? `, ${nL} neue Listen` : ''}`); }
       catch(e){ toast('Das ist keine gültige Sicherung'); }
     };
   };

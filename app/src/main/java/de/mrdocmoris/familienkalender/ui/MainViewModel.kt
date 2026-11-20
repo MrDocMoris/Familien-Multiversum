@@ -1,9 +1,12 @@
 package de.mrdocmoris.familienkalender.ui
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.google.firebase.FirebaseApp
 import androidx.lifecycle.viewModelScope
 import de.mrdocmoris.familienkalender.data.CalendarEvent
 import de.mrdocmoris.familienkalender.data.Family
+import de.mrdocmoris.familienkalender.data.LocalEventStore
 import de.mrdocmoris.familienkalender.data.Repository
 import de.mrdocmoris.familienkalender.data.UserProfile
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,15 +32,21 @@ sealed interface AppState {
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MainViewModel : ViewModel() {
-    private val repo = Repository()
+class MainViewModel(app: Application) : AndroidViewModel(app) {
+    /** Offline-Modus, wenn keine google-services.json eingebunden ist (Firebase nicht initialisiert). */
+    val offline: Boolean = FirebaseApp.getApps(app).isEmpty()
+
+    // lazy: im Offline-Modus darf Firebase nie angefasst werden
+    private val repo by lazy { Repository() }
+    private val local by lazy { LocalEventStore(app) }
 
     // Zuerst deklarieren: die Flows unten greifen beim Start darauf zu
     val error = MutableStateFlow<String?>(null)
     val busy = MutableStateFlow(false)
 
-    val state: StateFlow<AppState> = repo.authState()
-        .flatMapLatest { user ->
+    val state: StateFlow<AppState> = (
+        if (offline) flowOf(AppState.Ready("local", UserProfile(displayName = "Ich"), "local"))
+        else repo.authState().flatMapLatest { user ->
             if (user == null) flowOf(AppState.LoggedOut)
             else repo.userProfile(user.uid).map { p ->
                 val fid = p.familyId
@@ -45,12 +54,12 @@ class MainViewModel : ViewModel() {
                 else AppState.Ready(user.uid, p, fid)
             }.catch { e -> error.value = e.message; emit(AppState.NeedsFamily(user.uid)) }
         }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, AppState.Loading)
+        ).stateIn(viewModelScope, SharingStarted.Eagerly, AppState.Loading)
 
     private val familyId = state.map { (it as? AppState.Ready)?.familyId }.distinctUntilChanged()
 
     val family: StateFlow<Family?> = familyId
-        .flatMapLatest { fid -> if (fid == null) flowOf(null) else repo.family(fid) }
+        .flatMapLatest { fid -> if (fid == null || offline) flowOf(null) else repo.family(fid) }
         .catch { emit(null) }
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
@@ -60,6 +69,7 @@ class MainViewModel : ViewModel() {
     val events: StateFlow<List<CalendarEvent>> = combine(familyId, month) { fid, m -> fid to m }
         .flatMapLatest { (fid, m) ->
             if (fid == null) flowOf(emptyList())
+            else if (offline) local.events
             else repo.eventsForMonth(fid, m).catch { e -> error.value = e.message; emit(emptyList()) }
         }
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
@@ -82,6 +92,11 @@ class MainViewModel : ViewModel() {
 
     fun saveEvent(event: CalendarEvent) {
         val s = state.value as? AppState.Ready ?: return
+        if (offline) {
+            if (event.id.isBlank()) local.add(event.copy(createdByName = s.profile.displayName))
+            else local.update(event)
+            return
+        }
         launchAction {
             if (event.id.isBlank()) {
                 repo.addEvent(
@@ -96,6 +111,7 @@ class MainViewModel : ViewModel() {
 
     fun deleteEvent(event: CalendarEvent) {
         val s = state.value as? AppState.Ready ?: return
+        if (offline) { local.delete(event.id); return }
         launchAction { repo.deleteEvent(s.familyId, event.id) }
     }
 

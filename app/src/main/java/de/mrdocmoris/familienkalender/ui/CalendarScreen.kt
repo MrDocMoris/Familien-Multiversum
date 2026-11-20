@@ -79,10 +79,10 @@ fun CalendarScreen(vm: MainViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(family?.name ?: "Kalender") },
+                title = { Text(family?.name ?: if (vm.offline) "Kalender (offline)" else "Kalender") },
                 actions = {
                     TextButton(onClick = { vm.selectDate(LocalDate.now()) }) { Text("Heute") }
-                    IconButton(onClick = { menuOpen = true }) {
+                    if (!vm.offline) IconButton(onClick = { menuOpen = true }) {
                         Icon(Icons.Filled.MoreVert, contentDescription = "Menü")
                     }
                     DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {

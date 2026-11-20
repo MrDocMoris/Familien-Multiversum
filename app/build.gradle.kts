@@ -2,7 +2,12 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
-    id("com.google.gms.google-services")
+}
+
+// Firebase nur einbinden, wenn google-services.json vorhanden ist.
+// Ohne die Datei läuft die App im Offline-Modus (Termine nur lokal auf dem Handy).
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
 }
 
 android {

@@ -102,6 +102,52 @@ h3{font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--mute
 .day:active{transform:scale(.92)}
 .day.other{opacity:.28}
 .day.today{box-shadow:inset 0 0 0 1.5px var(--acc);color:var(--acc);font-weight:700}
+/* Countdowns & Hinweise */
+.cds{display:flex;gap:8px;overflow-x:auto;margin:-4px -14px 14px;padding:4px 14px;scrollbar-width:none}
+.cds::-webkit-scrollbar{display:none}
+.cd{flex:none;min-width:130px;max-width:170px;text-align:left;border-radius:16px;padding:10px 12px;background:linear-gradient(150deg,rgba(111,227,255,.16),rgba(229,155,255,.16));border:1px solid rgba(167,139,255,.45);box-shadow:0 0 14px rgba(130,110,255,.25)}
+.cd b{display:block;font-size:24px;line-height:1.1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cd span{display:block;font-size:12px;color:var(--mute)}
+.cd .t{color:var(--text);font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.hints{display:flex;flex-direction:column;gap:6px;margin:-4px 0 14px}
+.hint{display:flex;align-items:center;gap:10px;text-align:left;padding:9px 12px;border-radius:12px;background:rgba(27,23,56,.82);border:1px solid var(--line);font-size:14px}
+.hint.warn{border-color:rgba(255,177,61,.5);background:rgba(255,177,61,.10)}
+.hint.bad{border-color:rgba(255,92,108,.5);background:rgba(255,92,108,.10)}
+.spec.waste{background:rgba(160,160,180,.10)}
+.spec.dog{background:rgba(255,177,61,.10);border-color:rgba(255,177,61,.35)}
+/* Essen */
+.wnav{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.wnav .t{flex:1;text-align:center;font-weight:700}
+.meal{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:rgba(27,23,56,.82);border:1px solid var(--line);border-radius:14px;padding:11px 12px;margin-bottom:7px}
+.meal .dd{width:44px;flex:none;text-align:center;line-height:1.15}
+.meal .dd b{display:block;font-size:18px}
+.meal .dd span{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.meal.today{border-color:var(--acc);box-shadow:0 0 12px rgba(127,227,255,.25)}
+.meal .mn{flex:1;min-width:0}
+.meal .mn b{display:block}
+.meal .mn small{display:block;color:var(--mute);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.meal .mn .plan{color:var(--mute)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+/* Pinnwand */
+.notes{columns:2;column-gap:10px}
+.notec{break-inside:avoid;display:block;width:100%;text-align:left;margin-bottom:10px;border-radius:14px;padding:11px 12px;border:1px solid var(--line);position:relative;overflow:hidden;background:rgba(27,23,56,.9)}
+.notec::before{content:"";position:absolute;left:0;top:0;right:0;height:4px}
+.notec b{display:block;margin-bottom:4px}
+.notec p{margin:0;font-size:13px;color:#d9d3ff;white-space:pre-wrap;word-break:break-word;max-height:150px;overflow:hidden}
+.notec small{display:block;margin-top:6px;font-size:11px;color:var(--mute)}
+/* Hund & Müll */
+.care{display:flex;align-items:center;gap:10px;background:rgba(27,23,56,.82);border:1px solid var(--line);border-radius:14px;padding:10px 10px 10px 12px;margin-bottom:8px}
+.care .ic{font-size:24px;width:32px;text-align:center;flex:none}
+.care .cm{flex:1;min-width:0;text-align:left}
+.care .cm b{display:block}
+.care .cm small{display:block;font-size:12px;color:var(--mute)}
+.care .st{font-size:12px;font-weight:700}
+.care .ok{flex:none;padding:8px 10px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);font-size:12px;color:var(--ok)}
+.st.bad{color:var(--bad)} .st.warn{color:#ffb13d} .st.good{color:var(--ok)}
+.bin{width:14px;height:14px;border-radius:4px;display:inline-block;vertical-align:-2px;margin-right:6px}
+.dots i.w{border-radius:1.5px}
+.subhead{display:flex;align-items:center;gap:10px;margin:4px 0 14px}
+.subhead h1{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .day .mb{position:absolute;left:-2px;right:-2px;height:4px;pointer-events:none}
 .day.fer{background:rgba(125,255,181,.17)}
 .day.hol>span:first-child{color:#ff9ab0;font-weight:700}
@@ -171,6 +217,8 @@ textarea{min-height:64px;resize:vertical}
     <button class="gearbtn" id="gear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   </div>
   <div class="hstats" id="stats"></div>
+  <div class="cds" id="cdowns"></div>
+  <div class="hints" id="hints"></div>
   <div class="card">
     <div class="mhead">
       <button class="iconbtn" id="prev" aria-label="Vorheriger Monat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
@@ -191,10 +239,18 @@ textarea{min-height:64px;resize:vertical}
   <div class="tiles" id="ltiles"></div>
 </div></section>
 <section class="view" id="v-list"><div class="pad" id="ldetail"></div></section>
+<section class="view" id="v-meals"><div class="pad" id="meals"></div></section>
+<section class="view" id="v-more"><div class="pad">
+  <div class="hero" style="margin-bottom:16px"><div style="flex:1;min-width:0"><h1>Mehr</h1><div class="sub">Pinnwand, Hund, Müllabfuhr &amp; Einstellungen</div></div></div>
+  <div class="tiles" id="mtiles"></div>
+</div></section>
+<section class="view" id="v-sub"><div class="pad" id="sub"></div></section>
 </main>
 <nav>
   <button class="on" data-v="cal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="12" cy="15" r="1.4" fill="currentColor"/></svg>Kalender<span class="badge" id="b-cal"></span></button>
   <button data-v="lists"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.5 6 1.5 1.5L7.5 5M3.5 12l1.5 1.5 2.5-2.5"/><circle cx="5" cy="18" r="1.3"/></svg>Listen<span class="badge" id="b-lists"></span></button>
+  <button data-v="meals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v8a2 2 0 0 1-4 0V3M5 11v10M17 21V3c-2.5 1.5-4 4.5-4 8h4"/></svg>Essen</button>
+  <button data-v="more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>Mehr<span class="badge" id="b-more"></span></button>
 </nav>
 </div>
 <button id="fab" aria-label="Termin hinzufügen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -222,7 +278,7 @@ function plug(name){
   return _plugs[name];
 }
 if(NATIVE){
-  try{ plug('App').addListener('backButton', () => { if($('#sheet').classList.contains('on')) closeSheet(); else if(S.view === 'list') showView('lists'); else if(S.view !== 'cal') showView('cal'); else plug('App').exitApp(); }); }catch(e){}
+  try{ plug('App').addListener('backButton', () => { if($('#sheet').classList.contains('on')) closeSheet(); else if(S.view === 'list') showView('lists'); else if(S.view === 'sub') showView('more'); else if(S.view !== 'cal') showView('cal'); else plug('App').exitApp(); }); }catch(e){}
 }
 
 /* ================= Daten (offline, auf dem Gerät) ================= */
@@ -249,7 +305,8 @@ const REPEAT_SHORT = {none:'Einmal', weekly:'Wöchentl.', monthly:'Monatl.', yea
 
 /* Findet ein Termin (ggf. wiederholt) an diesem Tag statt? */
 // Dauer in Tagen (0 = eintägig)
-const spanDays = ev => (ev.endDate && ev.endDate > ev.date && ev.type !== 'bday') ? Math.round((parse(ev.endDate) - parse(ev.date)) / 864e5) : 0;
+const YEARLY = t => t === 'bday' || t === 'anniv';
+const spanDays = ev => (ev.endDate && ev.endDate > ev.date && !YEARLY(ev.type)) ? Math.round((parse(ev.endDate) - parse(ev.date)) / 864e5) : 0;
 // Beginnt an diesem Tag ein Vorkommen (bei Serien) – und welches Vorkommen deckt einen Tag ab?
 function occStart(ev, ds){
   const n = spanDays(ev);
@@ -274,8 +331,8 @@ const sortEv = (a, b) => (b.allDay - a.allDay) || (a.start || '').localeCompare(
 const visible = e => !e.vis || e.vis === 'both' || e.vis === S.cfg.me;
 const meName = () => S.cfg.me === 'b' ? S.cfg.nameB : S.cfg.nameA;
 const eventsOn = ds => S.events.filter(e => visible(e) && occursOn(e, ds)).sort(sortEv);
-const BDAY_COLOR = 'linear-gradient(180deg,#ffd23f,#ff8a3d)';
-function ageOn(e, ds){ return (e.type === 'bday' && !e.noYear) ? +ds.slice(0, 4) - +e.date.slice(0, 4) : null; }
+const BDAY_COLOR = 'linear-gradient(180deg,#ffd23f,#ff8a3d)', ANNIV_COLOR = 'linear-gradient(180deg,#ff8ad8,#d6336c)';
+function ageOn(e, ds){ return (YEARLY(e.type) && !e.noYear) ? +ds.slice(0, 4) - +e.date.slice(0, 4) : null; }
 const whoColor = w => w === 'a' ? 'var(--pa)' : w === 'b' ? 'var(--pb)' : 'linear-gradient(180deg,var(--pa),var(--pb))';
 const whoName = w => w === 'a' ? S.cfg.nameA : w === 'b' ? S.cfg.nameB : 'Beide';
 
@@ -338,7 +395,10 @@ const ferienOn = ds => S.cfg.showFer ? FERIEN_NRW.find(f => ds >= f[1] && ds <= 
 const fmtDM = s => { const d = parse(s); return `${d.getDate()}.${d.getMonth() + 1}.`; };
 function specRows(ds){
   const h = holidayOn(ds), f = ferienOn(ds);
-  return (h ? `<div class="spec hol"><span style="font-size:20px">🎉</span><span><b>${esc(h)}</b><small>Feiertag in NRW</small></span></div>` : '') +
+  const w = wasteOn(ds), dg = dogDueOn(ds);
+  return (w.length ? `<div class="spec waste"><span style="font-size:20px">🗑️</span><span><b>${w.map(x => `<i class="bin" style="background:${x.c}"></i>${esc(x.name)}`).join(' &nbsp;')}</b><small>Müllabfuhr – Tonnen am Vorabend rausstellen</small></span></div>` : '') +
+    dg.map(it => `<div class="spec dog"><span style="font-size:20px">🐶</span><span><b>${esc(it.icon + ' ' + it.name)} fällig</b><small>${esc(S.dog.name || 'Hunde-Ecke')}</small></span></div>`).join('') +
+    (h ? `<div class="spec hol"><span style="font-size:20px">🎉</span><span><b>${esc(h)}</b><small>Feiertag in NRW</small></span></div>` : '') +
     (f ? `<div class="spec fer"><span style="font-size:20px">🏖️</span><span><b>${esc(f[0])}</b><small>${f[1] === f[2] ? 'Schulfrei in NRW' : `Schulferien NRW · ${fmtDM(f[1])} – ${fmtDM(f[2])}${f[2].slice(0, 4)}`}</small></span></div>` : '');
 }
 
@@ -383,7 +443,7 @@ function renderMonth(){
     const d = new Date(start); d.setDate(start.getDate() + i);
     if(i >= 35 && d.getMonth() !== m) break;
     const ds = ymd(d), evs = eventsOn(ds);
-    const who = [...new Set(evs.filter(e => !spanDays(e)).map(e => e.type === 'bday' ? 'bday' : e.who))].slice(0, 3);
+    const who = [...new Set(evs.filter(e => !spanDays(e)).map(e => YEARLY(e.type) ? e.type : e.who))].slice(0, 3);
     // Mehrtägige Termine als durchgehender Balken
     const bars = evs.filter(e => spanDays(e)).map(e => [e, lane[e.id + '|' + occStart(e, ds)] || 0]).filter(([, bi]) => bi < 2).map(([e, bi]) => {
       const st = occStart(e, ds), en = addDays(st, spanDays(e)), dow = (d.getDay() + 6) % 7;
@@ -392,21 +452,23 @@ function renderMonth(){
     }).join('');
     const hol = holidayOn(ds), fer = ferienOn(ds);
     const cls = ['day', d.getMonth() !== m && 'other', ds === t && 'today', ds === S.sel && 'sel', hol && 'hol', fer && 'fer'].filter(Boolean).join(' ');
-    html += `<button class="${cls}" data-d="${ds}"><span>${d.getDate()}</span><span class="dots">${who.map(w => `<i style="background:${w === 'bday' ? '#ffb13d' : whoColor(w)}"></i>`).join('')}</span>${bars}</button>`;
+    html += `<button class="${cls}" data-d="${ds}"><span>${d.getDate()}</span><span class="dots">${who.map(w => `<i style="background:${w === 'bday' ? '#ffb13d' : w === 'anniv' ? '#ff6fae' : whoColor(w)}"></i>`).join('')}${wasteOn(ds).slice(0, 2).map(x => `<i class="w" style="background:${x.c}"></i>`).join('')}</span>${bars}</button>`;
   }
   $('#grid').innerHTML = html;
-  $('#legend').innerHTML = (S.cfg.showHol ? '<span><i style="background:#ff9ab0"></i>Feiertag</span>' : '') + (S.cfg.showFer ? '<span><i style="background:rgba(125,255,181,.45)"></i>Schulferien NRW</span>' : '');
+  $('#legend').innerHTML = (S.cfg.showHol ? '<span><i style="background:#ff9ab0"></i>Feiertag</span>' : '') + (S.cfg.showFer ? '<span><i style="background:rgba(125,255,181,.45)"></i>Schulferien</span>' : '') + (S.waste && (S.waste.bins.length || S.waste.dates.length) ? '<span><i style="background:#8d93a3;border-radius:2px"></i>Müll</span>' : '');
   $$('#grid .day').forEach(b => b.onclick = () => select(b.dataset.d));
 }
 
 function evRow(e, ds, showDate){
   const lock = e.vis && e.vis !== 'both' ? (e.vis === S.cfg.me ? '🔒 nur für dich' : '🔒 nur ' + (e.vis === 'b' ? S.cfg.nameB : S.cfg.nameA)) : '';
-  if(e.type === 'bday'){
-    const age = ageOn(e, ds);
-    const meta = [age !== null && age > 0 ? `wird ${age}` : 'Geburtstag', lock].filter(Boolean).map(esc).join(' · ');
-    return `<button class="ev" data-id="${esc(e.id)}" data-d="${ds}"><span class="bar" style="background:${BDAY_COLOR}"></span>
-    <span class="tm" style="font-size:24px;line-height:1.2">🎂</span>
-    <span class="mid">${showDate ? `<div class="dt">${esc(fmtShort(ds))}</div>` : ''}<div class="nm">${esc(e.title)}</div><div class="meta">${meta}</div>${e.note ? `<div class="note">${esc(e.note)}</div>` : ''}</span></button>`;
+  const star = e.star ? '⭐ Countdown' : '';
+  if(YEARLY(e.type)){
+    const age = ageOn(e, ds), bd = e.type === 'bday';
+    const name = !bd && age > 0 ? `${age}. ${e.title}` : e.title;
+    const meta = [bd ? (age !== null && age > 0 ? `wird ${age}` : 'Geburtstag') : 'Jahrestag', star, lock].filter(Boolean).map(esc).join(' · ');
+    return `<button class="ev" data-id="${esc(e.id)}" data-d="${ds}"><span class="bar" style="background:${bd ? BDAY_COLOR : ANNIV_COLOR}"></span>
+    <span class="tm" style="font-size:24px;line-height:1.2">${bd ? '🎂' : '💍'}</span>
+    <span class="mid">${showDate ? `<div class="dt">${esc(fmtShort(ds))}</div>` : ''}<div class="nm">${esc(name)}</div><div class="meta">${meta}</div>${e.note ? `<div class="note">${esc(e.note)}</div>` : ''}</span></button>`;
   }
   const n = spanDays(e), st = n ? occStart(e, ds) : ds, dayNo = n ? Math.round((parse(ds) - parse(st)) / 864e5) + 1 : 0;
   const first = !n || dayNo === 1, last = !n || dayNo === n + 1;
@@ -415,7 +477,7 @@ function evRow(e, ds, showDate){
   if(e.allDay || (!first && !last)) time = small('ganztägig');
   else if(first){ time = esc(e.start || ''); if(!n && e.end) sub = `<small>bis ${esc(e.end)}</small>`; else if(n) sub = '<small>Beginn</small>'; }
   else { time = small('bis'); sub = `<small style="font-size:14px;color:var(--text);font-weight:700">${esc(e.end || '')}</small>`; }
-  const meta = [n ? `Tag ${dayNo} von ${n + 1}` : '', whoName(e.who), e.repeat && e.repeat !== 'none' ? '↻ ' + REPEAT[e.repeat] : '', lock].filter(Boolean).map(esc).join(' · ');
+  const meta = [n ? `Tag ${dayNo} von ${n + 1}` : '', whoName(e.who), e.repeat && e.repeat !== 'none' ? '↻ ' + REPEAT[e.repeat] : '', star, lock].filter(Boolean).map(esc).join(' · ');
   return `<button class="ev" data-id="${esc(e.id)}" data-d="${ds}"><span class="bar" style="background:${whoColor(e.who)}"></span>
     <span class="tm">${time}${sub}</span>
     <span class="mid">${showDate ? `<div class="dt">${esc(fmtShort(ds))}</div>` : ''}<div class="nm">${esc(e.title)}</div><div class="meta">${meta}</div>${e.note ? `<div class="note">${esc(e.note)}</div>` : ''}</span></button>`;
@@ -439,7 +501,7 @@ function renderDay(){
   $$('.ev').forEach(b => b.onclick = () => editEvent(b.dataset.id));
 }
 
-function renderAll(){ renderStats(); renderMonth(); renderDay(); }
+function renderAll(){ renderStats(); renderCountdowns(); renderHints(); renderMonth(); renderDay(); }
 function select(ds){ S.sel = ds; const d = parse(ds); S.month = [d.getFullYear(), d.getMonth()]; renderMonth(); renderDay(); }
 $('#prev').onclick = () => { let [y, m] = S.month; m--; if(m < 0){ m = 11; y--; } S.month = [y, m]; renderMonth(); };
 $('#next').onclick = () => { let [y, m] = S.month; m++; if(m > 11){ m = 0; y++; } S.month = [y, m]; renderMonth(); };
@@ -462,11 +524,11 @@ function editEvent(id){
   const meKey = S.cfg.me === 'b' ? 'b' : 'a';
   openSheet(`
     <h2 id="e-h">${ex ? 'Bearbeiten' : 'Neu'}</h2>
-    <div class="seg" id="e-type"><button data-k="event" class="${f.type !== 'bday' ? 'on' : ''}">📅 Termin</button><button data-k="bday" class="${f.type === 'bday' ? 'on' : ''}">🎂 Geburtstag</button></div>
+    <div class="seg" id="e-type"><button data-k="event" class="${!YEARLY(f.type) ? 'on' : ''}">📅 Termin</button><button data-k="bday" class="${f.type === 'bday' ? 'on' : ''}">🎂 Geburtstag</button><button data-k="anniv" class="${f.type === 'anniv' ? 'on' : ''}">💍 Jahrestag</button></div>
     <label class="f" id="e-tl">Titel</label><input type="text" id="e-title" maxlength="80" value="${esc(f.title)}">
     <div class="two"><div style="flex:1.2"><label class="f" id="e-dl">Datum</label><input type="date" id="e-date" value="${esc(f.date)}"></div>
       <div class="ev-only"><label class="f">Bis (mehrtägig)</label><input type="date" id="e-enddate" value="${esc(f.endDate || '')}"></div></div>
-    <div class="sw bd-only"><span>Geburtsjahr bekannt<br><small class="muted">dann zeigt die App das Alter an</small></span><button class="tog${f.noYear ? '' : ' on'}" id="e-year" aria-label="Geburtsjahr bekannt"></button></div>
+    <div class="sw bd-only"><span id="e-yl">Geburtsjahr bekannt<br><small class="muted">dann zeigt die App das Alter an</small></span><button class="tog${f.noYear ? '' : ' on'}" id="e-year" aria-label="Geburtsjahr bekannt"></button></div>
     <div class="ev-only"><div class="sw"><span>Ganztägig</span><button class="tog${f.allDay ? ' on' : ''}" id="e-all" aria-label="Ganztägig"></button></div>
     <div class="two" id="e-times" style="${f.allDay ? 'display:none' : ''}">
       <div><label class="f">Von</label><input type="time" id="e-start" value="${esc(f.start || '')}"></div>
@@ -481,28 +543,32 @@ function editEvent(id){
     <div class="seg" id="e-rem"></div>
     <label class="f">Wer sieht das?</label>
     <div class="seg" id="e-vis"><button data-k="both" class="${f.vis === 'both' ? 'on' : ''}">👥 Wir beide</button><button data-k="${meKey}" class="${f.vis !== 'both' ? 'on' : ''}">🔒 Nur für mich</button></div>
+    <div class="sw"><span>⭐ Countdown auf der Startseite<br><small class="muted">„Noch 12 Tage bis …“</small></span><button class="tog${f.star ? ' on' : ''}" id="e-star" aria-label="Countdown"></button></div>
     <label class="f">Notiz</label><textarea id="e-note" maxlength="500" placeholder="optional">${esc(f.note || '')}</textarea>
     <div class="btns"><button class="btn pri" id="e-save">Speichern</button><button class="btn" id="e-cancel">Abbrechen</button></div>
     ${ex ? `<div class="btns" style="margin-top:8px"><button class="btn del" id="e-del">Löschen</button></div>` : ''}`);
   let applyType = () => {
-    const bd = f.type === 'bday';
-    $$('#sheet .bd-only').forEach(x => x.style.display = bd ? '' : 'none');
-    $$('#sheet .ev-only').forEach(x => x.style.display = bd ? 'none' : '');
-    $('#e-h').textContent = (ex ? '' : 'Neuer ') + (bd ? 'Geburtstag' : 'Termin') + (ex ? ' bearbeiten' : '');
-    $('#e-tl').textContent = bd ? 'Wessen Geburtstag?' : 'Titel';
-    $('#e-title').placeholder = bd ? 'z. B. Oma Gisela, Kollege Thomas …' : 'z. B. Zahnarzt, Elternabend …';
-    $('#e-dl').textContent = bd ? (f.noYear ? 'Geburtstag (Jahr egal)' : 'Geburtsdatum') : 'Datum';
-    if(ex) $('#e-del').textContent = bd ? 'Geburtstag löschen' : (f.repeat && f.repeat !== 'none' ? 'Ganze Serie löschen' : 'Termin löschen');
+    const yr = YEARLY(f.type), an = f.type === 'anniv', bd = f.type === 'bday';
+    $$('#sheet .bd-only').forEach(x => x.style.display = yr ? '' : 'none');
+    $$('#sheet .ev-only').forEach(x => x.style.display = yr ? 'none' : '');
+    const word = bd ? 'Geburtstag' : an ? 'Jahrestag' : 'Termin';
+    $('#e-h').textContent = ex ? word + ' bearbeiten' : (an ? 'Neuer Jahrestag' : 'Neuer ' + word);
+    $('#e-tl').textContent = bd ? 'Wessen Geburtstag?' : an ? 'Was feiert ihr?' : 'Titel';
+    $('#e-title').placeholder = bd ? 'z. B. Oma Gisela, Kollege Thomas …' : an ? 'z. B. Hochzeitstag, Kennenlerntag …' : 'z. B. Zahnarzt, Elternabend …';
+    $('#e-dl').textContent = bd ? (f.noYear ? 'Geburtstag (Jahr egal)' : 'Geburtsdatum') : an ? (f.noYear ? 'Datum (Jahr egal)' : 'Datum (das erste Mal)') : 'Datum';
+    $('#e-yl').innerHTML = an ? 'Jahr bekannt<br><small class="muted">dann zählt die App mit, z. B. „5. Hochzeitstag“</small>' : 'Geburtsjahr bekannt<br><small class="muted">dann zeigt die App das Alter an</small>';
+    if(ex) $('#e-del').textContent = yr ? word + ' löschen' : (f.repeat && f.repeat !== 'none' ? 'Ganze Serie löschen' : 'Termin löschen');
   };
   const drawRem = () => {
-    const opts = (f.type === 'bday' || f.allDay) ? REM_DAY : REM_TIMED, cur = normRemind(f);
-    $('#e-rem').innerHTML = opts.map(([k, n]) => `<button data-k="${k}" class="${cur === k ? 'on' : ''}">${n}</button>`).join('');
+    const opts = (YEARLY(f.type) || f.allDay) ? REM_DAY : REM_TIMED, cur = normRemind(f);
+    $('#e-rem').innerHTML = opts.map(([k, n]) => `<button data-k="${k}" class="${cur === k ? 'on' : ''}">${n}</button>`).join('') + (opts === REM_DAY ? '<small class="muted" style="width:100%;font-size:11px">Am Tag um 9 Uhr · Vortag und 3 Tage vorher um 18 Uhr</small>' : '');
     $$('#e-rem button').forEach(b => b.onclick = () => { f.remind = b.dataset.k; $$('#e-rem button').forEach(x => x.classList.toggle('on', x === b)); });
   };
   const _applyType = applyType;
   applyType = () => { _applyType(); drawRem(); };
   applyType();
   $$('#e-type button').forEach(b => b.onclick = () => { f.type = b.dataset.k; $$('#e-type button').forEach(x => x.classList.toggle('on', x === b)); applyType(); });
+  $('#e-star').onclick = () => { f.star = !f.star; $('#e-star').classList.toggle('on', f.star); };
   $$('#e-vis button').forEach(b => b.onclick = () => { f.vis = b.dataset.k; $$('#e-vis button').forEach(x => x.classList.toggle('on', x === b)); });
   $('#e-year').onclick = () => { f.noYear = !f.noYear; $('#e-year').classList.toggle('on', !f.noYear); applyType(); };
   if(!ex) setTimeout(() => $('#e-title').focus(), 260);
@@ -522,13 +588,13 @@ function editEvent(id){
   $('#e-cancel').onclick = closeSheet;
   $('#e-save').onclick = () => {
     f.title = $('#e-title').value.trim(); f.date = $('#e-date').value; f.note = $('#e-note').value.trim();
-    f.endDate = f.type === 'bday' ? '' : $('#e-enddate').value;
+    f.endDate = YEARLY(f.type) ? '' : $('#e-enddate').value;
     if(f.endDate && f.endDate < f.date){ toast('Das Enddatum liegt vor dem Beginn'); return; }
     if(f.endDate === f.date) f.endDate = '';
     f.start = $('#e-start').value; f.end = $('#e-end').value;
     if(!f.title){ toast(f.type === 'bday' ? 'Bitte einen Namen eingeben' : 'Bitte einen Titel eingeben'); $('#e-title').focus(); return; }
     if(!f.date){ toast('Bitte ein Datum wählen'); return; }
-    if(f.type === 'bday'){
+    if(YEARLY(f.type)){
       f.allDay = true; f.repeat = 'yearly'; f.who = 'both';
       if(f.noYear){ const d = parse(f.date), cy = new Date().getFullYear(); // ohne Jahr: ab diesem Jahr jährlich
         let ds = ymd(new Date(cy, d.getMonth(), d.getDate())); if(ds > todayStr()) ds = ymd(new Date(cy - 1, d.getMonth(), d.getDate())); f.date = ds; }
@@ -539,7 +605,9 @@ function editEvent(id){
     f.remind = normRemind(f);
     if(ex){ Object.assign(ex, f, {changed:Date.now()}); }
     else S.events.push({...f, id:Date.now().toString(36) + Math.random().toString(36).slice(2, 7), created:Date.now()});
-    saveEvents(); closeSheet(); if(f.type === 'bday') renderAll(); else select(f.date); renderStats(); toast(f.type === 'bday' ? (f.vis === 'both' ? '🎂 Geburtstag gespeichert' : '🎂 Gespeichert – nur für dich sichtbar') : (ex ? 'Termin gespeichert' : 'Termin angelegt'));
+    saveEvents(); closeSheet(); if(YEARLY(f.type)) renderAll(); else select(f.date); renderStats();
+    const em = f.type === 'bday' ? '🎂 ' : f.type === 'anniv' ? '💍 ' : '';
+    toast(em + (f.vis !== 'both' ? 'Gespeichert – nur für dich sichtbar' : ex ? 'Gespeichert' : f.type === 'event' ? 'Termin angelegt' : 'Gespeichert'));
   };
   if(ex) $('#e-del').onclick = () => {
     const b = $('#e-del');
@@ -589,7 +657,8 @@ function openSettings(){
   const doExport = async (share) => {
     const evs = share ? S.events.filter(e => !e.vis || e.vis === 'both') : S.events;
     const cfg = share ? {nameA:S.cfg.nameA, nameB:S.cfg.nameB, colorA:S.cfg.colorA, colorB:S.cfg.colorB} : S.cfg;
-    const data = JSON.stringify({app:'familien-multiversum', v:1, date:new Date().toISOString(), cfg, events:evs, lists:S.lists});
+    const notes = share ? S.notes.filter(n => !n.vis || n.vis === 'both') : S.notes;
+    const data = JSON.stringify({app:'familien-multiversum', v:2, date:new Date().toISOString(), cfg, events:evs, lists:S.lists, meals:S.meals, favs:S.favs, notes, dog:S.dog, waste:S.waste});
     try{ await navigator.clipboard.writeText(data); toast(share ? 'Kopiert – jetzt per WhatsApp schicken' : 'Sicherung kopiert'); }
     catch(e){ openSheet(`<h2>Sicherung</h2><p class="muted">Text markieren und kopieren:</p><textarea style="min-height:200px" readonly>${esc(data)}</textarea><div class="btns"><button class="btn" onclick="closeSheet()">Schließen</button></div>`); }
   };
@@ -647,16 +716,20 @@ S.view = 'cal';
 function showView(v){
   S.view = v;
   $$('.view').forEach(x => x.classList.toggle('on', x.id === 'v-' + v));
-  $$('nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v || (v === 'list' && b.dataset.v === 'lists')));
+  $$('nav button').forEach(b => b.classList.toggle('on', b.dataset.v === v || (v === 'list' && b.dataset.v === 'lists') || (v === 'sub' && b.dataset.v === 'more')));
   $('#fab').style.display = v === 'cal' ? '' : 'none';
   if(v === 'lists') renderLists();
   if(v === 'list') renderList();
   if(v === 'cal') renderAll();
+  if(v === 'meals') renderMeals();
+  if(v === 'more') renderMore();
+  if(v === 'sub') renderSub();
+  const view = $('#v-' + v); if(view && v !== 'list') view.scrollTop = 0;
 }
 $$('nav button').forEach(b => b.onclick = () => showView(b.dataset.v));
 
 /* ================= Listen ================= */
-const LIST_ICONS = ['🛒','✅','🎁','✈️','🏠','🍽️','📚','🧹','🐾','🎄','⭐','💡'];
+const LIST_ICONS = ['🛒','✅','🎁','✈️','🏠','🍽️','📚','🧹','🐾','🎄','⭐','💡','📦','🧳','🐶','💼','🎉','🌱'];
 const LIST_COLORS = ['#6fe3ff,#4f7bff','#a78bff,#6b4cff','#ffd23f,#ff8a3d','#e59bff,#a14cff','#ff7a8a,#d6336c','#7dffb5,#1fa37a'];
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 S.lists = store('fm_lists') || [
@@ -762,21 +835,381 @@ function editListMeta(l){
   const f = l ? {name:l.name, icon:l.icon, color:l.color} : {name:'', icon:LIST_ICONS[S.lists.length % LIST_ICONS.length], color:LIST_COLORS[(S.lists.length * 2 + 1) % LIST_COLORS.length]};
   openSheet(`
     <h2>${l ? 'Liste bearbeiten' : 'Neue Liste'}</h2>
+    ${l ? '' : `<label class="f">Vorlage</label><div class="chips" id="n-tpl"><button class="chip on" data-t="">Leer</button>${Object.entries(LIST_TPL).map(([k, t]) => `<button class="chip" data-t="${k}">${t.icon} ${esc(t.name)}</button>`).join('')}</div>`}
     <label class="f">Name</label><input type="text" id="n-name" maxlength="30" placeholder="z. B. Drogerie, Urlaub packen …" value="${esc(f.name)}">
     <label class="f">Symbol</label><div class="icons" id="n-icons">${LIST_ICONS.map(i => `<button data-i="${i}" class="${i === f.icon ? 'on' : ''}">${i}</button>`).join('')}</div>
     <label class="f">Farbe</label><div class="cols" id="n-cols">${LIST_COLORS.map(c => `<button data-c="${c}" class="${c === f.color ? 'on' : ''}" style="background:${grad(c)}"></button>`).join('')}</div>
     <div class="btns"><button class="btn pri" id="n-save">${l ? 'Speichern' : 'Liste anlegen'}</button><button class="btn" id="n-x">Abbrechen</button></div>`);
   if(!l) setTimeout(() => $('#n-name').focus(), 260);
+  $$('#n-tpl button').forEach(b => b.onclick = () => {
+    $$('#n-tpl button').forEach(x => x.classList.toggle('on', x === b)); f.tpl = b.dataset.t;
+    const t = LIST_TPL[f.tpl]; if(!t) return;
+    $('#n-name').value = t.name; f.icon = t.icon; f.color = t.color;
+    $$('#n-icons button').forEach(x => x.classList.toggle('on', x.dataset.i === f.icon)); $$('#n-cols button').forEach(x => x.classList.toggle('on', x.dataset.c === f.color));
+  });
   $$('#n-icons button').forEach(b => b.onclick = () => { f.icon = b.dataset.i; $$('#n-icons button').forEach(x => x.classList.toggle('on', x === b)); });
   $$('#n-cols button').forEach(b => b.onclick = () => { f.color = b.dataset.c; $$('#n-cols button').forEach(x => x.classList.toggle('on', x === b)); });
   $('#n-x').onclick = closeSheet;
   $('#n-save').onclick = () => {
     f.name = $('#n-name').value.trim(); if(!f.name){ toast('Bitte einen Namen eingeben'); return; }
-    if(l) Object.assign(l, f); else { const n = {id:uid(), ...f, items:[]}; S.lists.push(n); S.listId = n.id; }
+    const tpl = LIST_TPL[f.tpl]; delete f.tpl;
+    if(l) Object.assign(l, f, {changed:Date.now()}); else { const n = {id:uid(), ...f, items:tpl ? tpl.items.map((t, i) => ({id:uid(), text:t, done:false, created:Date.now() - i})) : [], created:Date.now()}; S.lists.push(n); S.listId = n.id; }
     saveLists(); closeSheet(); showView(l ? 'list' : 'list');
   };
 }
 
+
+/* ================= Listen-Vorlagen ================= */
+const LIST_TPL = {
+  umzug:{name:'Umzug', icon:'📦', color:'#ffd23f,#ff8a3d', items:[
+    'Mietvertrag kündigen (Kündigungsfrist beachten)', 'Umzugstermin festlegen & Urlaub nehmen', 'Helfer oder Umzugsfirma organisieren',
+    'Umzugskartons besorgen', 'Halteverbotszone beantragen', 'Nachsendeauftrag bei der Post einrichten',
+    'Strom- & Gasanbieter ummelden', 'Internet & Telefon umziehen oder kündigen', 'Rundfunkbeitrag ummelden',
+    'Zählerstände alte Wohnung notieren (Foto)', 'Heizöl-Stand ablesen & mit Vermieter klären', 'Wohnungsübergabe-Protokoll (alte Wohnung)',
+    'Schönheitsreparaturen prüfen', 'Kaution zurückfordern', 'Wohnungsgeberbestätigung vom neuen Vermieter holen',
+    'Ummelden beim Bürgeramt (innerhalb von 2 Wochen)', 'Fahrzeugschein ändern lassen', 'Hund bei der neuen Gemeinde anmelden (Hundesteuer)',
+    'Bank, Versicherungen & Arbeitgeber: neue Adresse', 'Hausratversicherung anpassen', 'Schlüssel übergeben',
+    'Müllabfuhr-Termine für die neue Adresse eintragen']},
+  urlaub:{name:'Urlaub packen', icon:'🧳', color:'#6fe3ff,#4f7bff', items:[
+    'Ausweise / Reisepässe', 'Krankenkassenkarte', 'Ladekabel & Powerbank', 'Medikamente & Reiseapotheke', 'Sonnencreme',
+    'Kleidung', 'Badesachen', 'Kulturbeutel', 'Hund: Futter, Leine, Napf, Impfpass', 'Fenster zu & Heizung runter',
+    'Mülleimer leeren', 'Pflanzen gießen lassen', 'Briefkasten leeren lassen']},
+  einkauf:{name:'Wocheneinkauf', icon:'🛒', color:'#7dffb5,#1fa37a', items:[
+    'Milch', 'Brot', 'Eier', 'Butter', 'Käse', 'Obst', 'Gemüse', 'Kaffee', 'Toilettenpapier', 'Spülmittel']},
+  hund:{name:'Für den Hund', icon:'🐶', color:'#ff7a8a,#d6336c', items:['Hundefutter', 'Leckerlis', 'Kotbeutel', 'Kauknochen', 'Hundeshampoo']},
+};
+
+/* Etwas auf die Einkaufsliste setzen (doppelte offene Einträge werden übersprungen) */
+function shoppingList(){
+  let l = S.lists.find(x => x.icon === '🛒') || S.lists.find(x => /einkauf/i.test(x.name));
+  if(!l){ l = {id:uid(), name:'Einkaufsliste', icon:'🛒', color:LIST_COLORS[2], items:[], created:Date.now()}; S.lists.unshift(l); }
+  return l;
+}
+function addToShopping(texts){
+  const l = shoppingList(); let n = 0;
+  texts.map(t => t.trim()).filter(Boolean).forEach(t => {
+    if(l.items.some(i => !i.done && i.text.toLowerCase() === t.toLowerCase())) return;
+    l.items.unshift({id:uid(), text:t, done:false, created:Date.now()}); n++;
+  });
+  saveLists(); return n;
+}
+const splitIng = t => String(t || '').split(/[\n,;]+/).map(x => x.trim()).filter(Boolean);
+
+/* ================= Countdowns & Hinweise auf der Startseite ================= */
+function nextStart(e, from, maxDays = 800){
+  for(let i = 0; i <= maxDays; i++){ const ds = addDays(from, i); if(startsOn(e, ds)) return ds; }
+  return null;
+}
+function renderCountdowns(){
+  const t = todayStr();
+  const list = S.events.filter(e => e.star && visible(e)).map(e => ({e, ds:nextStart(e, t)})).filter(x => x.ds).sort((a, b) => a.ds.localeCompare(b.ds));
+  $('#cdowns').style.display = list.length ? '' : 'none';
+  $('#cdowns').innerHTML = list.map(({e, ds}) => {
+    const n = Math.round((parse(ds) - parse(t)) / 864e5);
+    const em = e.type === 'bday' ? '🎂' : e.type === 'anniv' ? '💍' : '⏳';
+    const age = ageOn(e, ds), title = e.type === 'anniv' && age > 0 ? `${age}. ${e.title}` : e.title;
+    return `<button class="cd" data-d="${ds}"><span>${em} ${n === 0 ? '' : 'noch'}</span><b>${n === 0 ? 'Heute! 🎉' : n === 1 ? '1 Tag' : n + ' Tage'}</b><div class="t">${esc(title)}</div></button>`;
+  }).join('');
+  $$('#cdowns .cd').forEach(b => b.onclick = () => select(b.dataset.d));
+}
+function renderHints(){
+  const t = todayStr(), out = [];
+  for(let i = 0; i <= 1; i++){ const w = wasteOn(addDays(t, i)); if(w.length){ out.push(`<button class="hint${i === 0 ? ' warn' : ''}" data-go="waste">🗑️ <span><b>${i === 0 ? 'Heute' : 'Morgen'}:</b> ${w.map(x => `<i class="bin" style="background:${x.c}"></i>${esc(x.name)}`).join(' ')}</span></button>`); break; } }
+  dogItems().forEach(it => {
+    const d = dogDue(it); if(!d) return; const n = Math.round((parse(d) - parse(t)) / 864e5);
+    if(n <= 7) out.push(`<button class="hint ${n < 0 ? 'bad' : 'warn'}" data-go="dog">🐶 <span><b>${esc(it.name)}</b> ${n < 0 ? `ist seit ${-n} Tag${n === -1 ? '' : 'en'} fällig` : n === 0 ? 'ist heute fällig' : `in ${n} Tag${n === 1 ? '' : 'en'} fällig`}</span></button>`);
+  });
+  $('#hints').innerHTML = out.join('');
+  $('#hints').style.display = out.length ? '' : 'none';
+  $$('#hints .hint').forEach(b => b.onclick = () => openSub(b.dataset.go));
+  const nm = dogItems().filter(it => { const d = dogDue(it); return d && d <= t; }).length;
+  $('#b-more').textContent = nm || '';
+}
+
+/* ================= Essensplan ================= */
+S.meals = store('fm_meals') || {};
+S.favs = store('fm_favmeals') || [];
+const saveMeals = () => { store('fm_meals', S.meals); store('fm_favmeals', S.favs); autoBackup(); };
+const mondayOf = ds => { const d = parse(ds); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return ymd(d); };
+S.week = mondayOf(todayStr());
+const WD = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+function renderMeals(){
+  const t = todayStr(), days = [...Array(7)].map((_, i) => addDays(S.week, i));
+  const a = parse(days[0]), b = parse(days[6]);
+  const range = `${a.getDate()}.${a.getMonth() !== b.getMonth() ? ' ' + MONTHS[a.getMonth()].slice(0, 3) + '.' : ''} – ${b.getDate()}. ${MONTHS[b.getMonth()]}`;
+  const planned = days.filter(d => S.meals[d] && S.meals[d].name).length;
+  $('#meals').innerHTML = `
+    <div class="hero" style="margin-bottom:12px"><div style="flex:1;min-width:0"><h1>Essensplan</h1><div class="sub">${planned ? `${planned} von 7 Tagen geplant` : 'Was gibt es diese Woche?'}</div></div></div>
+    <div class="wnav"><button class="iconbtn" id="w-prev" aria-label="Vorherige Woche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div class="t">${range}</div>
+      <button class="iconbtn" id="w-next" aria-label="Nächste Woche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button></div>
+    ${days.map((d, i) => { const m = S.meals[d]; const dd = parse(d);
+      return `<button class="meal${d === t ? ' today' : ''}" data-d="${d}"><span class="dd"><span>${WD[i]}</span><b>${dd.getDate()}</b></span><span class="mn">${m && m.name ? `<b>${esc(m.name)}</b>${m.ing ? `<small>${esc(splitIng(m.ing).join(', '))}</small>` : ''}` : '<span class="plan">+ Gericht planen</span>'}</span></button>`; }).join('')}
+    <div class="btns"><button class="btn pri" id="w-shop">🛒 Zutaten der Woche auf die Einkaufsliste</button></div>
+    ${S.favs.length ? `<h3>⭐ Lieblingsgerichte (${S.favs.length})</h3><div class="chips">${S.favs.map((f, i) => `<button class="chip" data-fi="${i}">${esc(f.name)}</button>`).join('')}</div><p class="muted" style="font-size:12px">Antippen zum Bearbeiten oder Löschen.</p>` : ''}`;
+  $('#w-prev').onclick = () => { S.week = addDays(S.week, -7); renderMeals(); };
+  $('#w-next').onclick = () => { S.week = addDays(S.week, 7); renderMeals(); };
+  $$('#meals .meal').forEach(b => b.onclick = () => editMeal(b.dataset.d));
+  $$('#meals [data-fi]').forEach(b => b.onclick = () => editFav(+b.dataset.fi));
+  $('#w-shop').onclick = () => {
+    const ing = days.flatMap(d => S.meals[d] ? splitIng(S.meals[d].ing) : []);
+    if(!ing.length){ toast('Für diese Woche sind keine Zutaten eingetragen'); return; }
+    const n = addToShopping(ing); toast(n ? `🛒 ${n} Zutat${n === 1 ? '' : 'en'} auf die Einkaufsliste gesetzt` : 'Steht schon alles auf der Einkaufsliste');
+  };
+}
+function editMeal(ds){
+  const m = S.meals[ds] || {name:'', ing:''}; const d = parse(ds);
+  const isFav = n => S.favs.some(f => f.name.toLowerCase() === String(n).trim().toLowerCase());
+  let fav = m.name ? isFav(m.name) : false;
+  openSheet(`
+    <h2>${WD[(d.getDay() + 6) % 7]}, ${d.getDate()}. ${MONTHS[d.getMonth()]}</h2>
+    ${S.favs.length ? `<label class="f">Lieblingsgerichte</label><div class="chips" id="m-favs">${S.favs.map((f, i) => `<button class="chip" data-fi="${i}">${esc(f.name)}</button>`).join('')}</div>` : ''}
+    <label class="f">Gericht</label><input type="text" id="m-name" maxlength="60" placeholder="z. B. Lasagne, Gemüsesuppe …" value="${esc(m.name)}">
+    <label class="f">Zutaten (eine pro Zeile oder mit Komma)</label><textarea id="m-ing" placeholder="Hackfleisch&#10;Lasagneplatten&#10;Tomaten">${esc(m.ing || '')}</textarea>
+    <div class="sw"><span>⭐ Als Lieblingsgericht merken</span><button class="tog${fav ? ' on' : ''}" id="m-fav"></button></div>
+    <div class="btns"><button class="btn pri" id="m-save">Speichern</button><button class="btn" id="m-shop">🛒 Zutaten einkaufen</button></div>
+    ${m.name ? '<div class="btns" style="margin-top:8px"><button class="btn del" id="m-del">Gericht entfernen</button></div>' : ''}`);
+  $$('#m-favs .chip').forEach(b => b.onclick = () => { const f = S.favs[+b.dataset.fi]; $('#m-name').value = f.name; $('#m-ing').value = f.ing || ''; fav = true; $('#m-fav').classList.add('on'); });
+  $('#m-fav').onclick = () => { fav = !fav; $('#m-fav').classList.toggle('on', fav); };
+  const collect = () => ({name:$('#m-name').value.trim(), ing:$('#m-ing').value.trim()});
+  const persist = () => {
+    const v = collect(); if(!v.name){ toast('Bitte ein Gericht eingeben'); return false; }
+    S.meals[ds] = {...v, changed:Date.now()};
+    const i = S.favs.findIndex(f => f.name.toLowerCase() === v.name.toLowerCase());
+    if(fav){ if(i >= 0) S.favs[i] = v; else S.favs.push(v); S.favs.sort((a, b) => a.name.localeCompare(b.name)); }
+    else if(i >= 0) S.favs.splice(i, 1);
+    saveMeals(); return true;
+  };
+  $('#m-save').onclick = () => { if(persist()){ closeSheet(); renderMeals(); } };
+  $('#m-shop').onclick = () => { if(!persist()) return; const ing = splitIng(collect().ing); if(!ing.length){ toast('Keine Zutaten eingetragen'); return; }
+    const n = addToShopping(ing); closeSheet(); renderMeals(); toast(n ? `🛒 ${n} Zutat${n === 1 ? '' : 'en'} auf die Einkaufsliste gesetzt` : 'Steht schon alles auf der Einkaufsliste'); };
+  if($('#m-del')) $('#m-del').onclick = () => { delete S.meals[ds]; saveMeals(); closeSheet(); renderMeals(); };
+}
+function editFav(i){
+  const f = S.favs[i];
+  openSheet(`<h2>⭐ Lieblingsgericht</h2>
+    <label class="f">Name</label><input type="text" id="f-name" maxlength="60" value="${esc(f.name)}">
+    <label class="f">Zutaten</label><textarea id="f-ing">${esc(f.ing || '')}</textarea>
+    <div class="btns"><button class="btn pri" id="f-save">Speichern</button><button class="btn" id="f-shop">🛒 Zutaten einkaufen</button></div>
+    <div class="btns" style="margin-top:8px"><button class="btn del" id="f-del">Aus Lieblingsgerichten entfernen</button></div>`);
+  $('#f-save').onclick = () => { const n = $('#f-name').value.trim(); if(!n) return; S.favs[i] = {name:n, ing:$('#f-ing').value.trim()}; saveMeals(); closeSheet(); renderMeals(); };
+  $('#f-shop').onclick = () => { const n = addToShopping(splitIng($('#f-ing').value)); closeSheet(); toast(n ? `🛒 ${n} Zutat${n === 1 ? '' : 'en'} auf die Einkaufsliste gesetzt` : 'Steht schon alles auf der Einkaufsliste'); };
+  $('#f-del').onclick = () => { S.favs.splice(i, 1); saveMeals(); closeSheet(); renderMeals(); };
+}
+
+/* ================= Mehr ================= */
+function renderMore(){
+  const t = todayStr();
+  const notes = (S.notes || []).filter(visible).length;
+  let nextW = null; for(let i = 0; i < 60 && !nextW; i++){ const w = wasteOn(addDays(t, i)); if(w.length) nextW = {i, w}; }
+  const due = dogItems().map(it => ({it, d:dogDue(it)})).filter(x => x.d).sort((a, b) => a.d.localeCompare(b.d))[0];
+  const dueTxt = !due ? 'Pflege & Tierarzt' : due.d < t ? `⚠️ ${due.it.name} überfällig` : due.d === t ? `${due.it.name} heute fällig` : `${due.it.name}: ${fmtShort(due.d)}`;
+  const tiles = [
+    ['notes', '📌', 'Pinnwand', notes ? `${notes} Notiz${notes === 1 ? '' : 'en'}` : 'WLAN, Nummern, Zählerstände …', '#ffd23f,#ff8a3d'],
+    ['dog', '🐶', S.dog.name || 'Hunde-Ecke', dueTxt, '#ff7a8a,#d6336c'],
+    ['waste', '🗑️', 'Müllabfuhr', nextW ? `${nextW.i === 0 ? 'Heute' : nextW.i === 1 ? 'Morgen' : fmtShort(addDays(t, nextW.i))}: ${nextW.w.map(x => x.name).join(', ')}` : 'Tonnen einrichten', '#7dffb5,#1fa37a'],
+    ['settings', '⚙️', 'Einstellungen', 'Personen, Sicherung, Updates', '#a78bff,#6b4cff'],
+  ];
+  $('#mtiles').innerHTML = tiles.map(([k, ic, n, sub, c]) => `<button class="tile" data-k="${k}"><span class="ti" style="background:${grad(c)}">${ic}</span><span class="tt">${esc(n)}</span><span class="ts">${esc(sub)}</span></button>`).join('');
+  $$('#mtiles .tile').forEach(b => b.onclick = () => b.dataset.k === 'settings' ? openSettings() : openSub(b.dataset.k));
+}
+S.sub = null;
+function openSub(k){ S.sub = k; showView('sub'); }
+function renderSub(){ ({notes:renderNotes, dog:renderDog, waste:renderWaste}[S.sub] || (() => showView('more')))(); }
+const subHead = (title, extra = '') => { const m = title.match(/^(\S+)\s+(.*)$/); const em = m && !/[A-Za-zÄÖÜäöü]/.test(m[1]) ? m[1] : ''; const tx = em ? m[2] : title;
+  return `<div class="subhead"><button class="iconbtn" id="sub-back" aria-label="Zurück"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>${em ? `<span style="font-size:26px;flex:none">${em}</span>` : ''}<h1>${tx}</h1>${extra}</div>`; };
+const bindBack = () => { $('#sub-back').onclick = () => showView('more'); };
+
+/* ================= Pinnwand ================= */
+S.notes = store('fm_notes') || [];
+const saveNotes = () => { store('fm_notes', S.notes); autoBackup(); };
+function renderNotes(){
+  const list = S.notes.filter(visible).sort((a, b) => (b.changed || b.created || 0) - (a.changed || a.created || 0));
+  $('#sub').innerHTML = subHead('📌 Pinnwand') + `
+    <div class="btns" style="margin:0 0 14px"><button class="btn pri" id="n-new">+ Neue Notiz</button></div>
+    ${list.length ? `<div class="notes">${list.map(n => `<button class="notec" data-id="${esc(n.id)}"><span style="position:absolute;left:0;top:0;right:0;height:4px;background:${grad(n.color || LIST_COLORS[0])}"></span>
+      <b>${esc(n.title || 'Notiz')}</b><p>${esc(n.text)}</p>${n.vis && n.vis !== 'both' ? '<small>🔒 nur für dich</small>' : ''}</button>`).join('')}</div>`
+    : '<div class="empty">Noch keine Notizen.<br>Gut für WLAN-Passwort, Telefonnummern, Zählerstände, Kleidergrößen …</div>'}`;
+  $$('#sub .notec').forEach(b => { const n = S.notes.find(x => x.id === b.dataset.id); b.onclick = () => editNote(n); });
+  bindBack(); $('#n-new').onclick = () => editNote(null);
+}
+function editNote(n){
+  const meKey = S.cfg.me === 'b' ? 'b' : 'a';
+  const f = n ? {...n} : {title:'', text:'', color:LIST_COLORS[(S.notes.length * 2 + 2) % LIST_COLORS.length], vis:'both'};
+  openSheet(`<h2>${n ? 'Notiz bearbeiten' : 'Neue Notiz'}</h2>
+    <label class="f">Überschrift</label><input type="text" id="o-title" maxlength="40" placeholder="z. B. WLAN, Tierarzt, Zählerstände" value="${esc(f.title)}">
+    <label class="f">Text</label><textarea id="o-text" style="min-height:120px" placeholder="…">${esc(f.text)}</textarea>
+    <label class="f">Farbe</label><div class="cols" id="o-cols">${LIST_COLORS.map(c => `<button data-c="${c}" class="${c === f.color ? 'on' : ''}" style="background:${grad(c)}"></button>`).join('')}</div>
+    <label class="f">Wer sieht das?</label>
+    <div class="seg" id="o-vis"><button data-k="both" class="${f.vis === 'both' ? 'on' : ''}">👥 Wir beide</button><button data-k="${meKey}" class="${f.vis !== 'both' ? 'on' : ''}">🔒 Nur für mich</button></div>
+    <div class="btns"><button class="btn pri" id="o-save">Speichern</button>${n ? '<button class="btn" id="o-copy">Text kopieren</button>' : '<button class="btn" id="o-x">Abbrechen</button>'}</div>
+    ${n ? '<div class="btns" style="margin-top:8px"><button class="btn del" id="o-del">Notiz löschen</button></div>' : ''}`);
+  if(!n) setTimeout(() => $('#o-title').focus(), 260);
+  $$('#o-cols button').forEach(b => b.onclick = () => { f.color = b.dataset.c; $$('#o-cols button').forEach(x => x.classList.toggle('on', x === b)); });
+  $$('#o-vis button').forEach(b => b.onclick = () => { f.vis = b.dataset.k; $$('#o-vis button').forEach(x => x.classList.toggle('on', x === b)); });
+  if($('#o-x')) $('#o-x').onclick = closeSheet;
+  $('#o-save').onclick = () => {
+    f.title = $('#o-title').value.trim(); f.text = $('#o-text').value.trim();
+    if(!f.title && !f.text){ toast('Die Notiz ist leer'); return; }
+    if(n) Object.assign(n, f, {changed:Date.now()}); else S.notes.push({...f, id:uid(), created:Date.now()});
+    saveNotes(); closeSheet(); renderNotes();
+  };
+  if(n) $('#o-copy').onclick = async () => { try{ await navigator.clipboard.writeText(n.text); toast('Kopiert'); }catch(e){ toast('Kopieren nicht möglich'); } };
+  if(n) $('#o-del').onclick = () => { const b = $('#o-del'); if(!b.dataset.sure){ b.dataset.sure = '1'; b.textContent = 'Wirklich löschen?'; return; }
+    S.notes = S.notes.filter(x => x.id !== n.id); saveNotes(); closeSheet(); renderNotes(); };
+}
+
+/* ================= Hunde-Ecke ================= */
+const DOG_DEFAULT = () => ({name:'', vet:'', food:'Hundefutter, Leckerlis, Kotbeutel', items:[
+  {id:uid(), icon:'💉', name:'Impfung', n:1, unit:'y', last:''},
+  {id:uid(), icon:'🩺', name:'Tierarzt-Check', n:1, unit:'y', last:''},
+  {id:uid(), icon:'🪱', name:'Wurmkur', n:3, unit:'m', last:''},
+  {id:uid(), icon:'🕷️', name:'Floh- & Zeckenschutz', n:1, unit:'m', last:''},
+]});
+S.dog = store('fm_dog') || DOG_DEFAULT();
+const saveDog = () => { store('fm_dog', S.dog); scheduleReminders(); autoBackup(); };
+const dogItems = () => (S.dog && S.dog.items) || [];
+const UNIT = {w:['Woche', 'Wochen'], m:['Monat', 'Monate'], y:['Jahr', 'Jahre']};
+const everyTxt = it => it.n === 1 ? ({w:'jede Woche', m:'jeden Monat', y:'jedes Jahr'}[it.unit]) : `alle ${it.n} ${UNIT[it.unit][1]}`;
+function dogDue(it){
+  if(!it.last) return null; const d = parse(it.last);
+  if(it.unit === 'w') d.setDate(d.getDate() + 7 * it.n); else if(it.unit === 'm') d.setMonth(d.getMonth() + it.n); else d.setFullYear(d.getFullYear() + it.n);
+  return ymd(d);
+}
+const dogDueOn = ds => dogItems().filter(it => dogDue(it) === ds);
+function renderDog(){
+  const t = todayStr();
+  $('#sub').innerHTML = subHead('🐶 ' + esc(S.dog.name || 'Hunde-Ecke'), '<button class="iconbtn" id="d-edit" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>') + `
+    ${!S.dog.name ? '<div class="hint" id="d-hint" style="margin-bottom:12px">✏️ <span>Tippe oben rechts auf <b>⋯</b>, um den Namen eures Hundes und den Tierarzt einzutragen.</span></div>' : ''}
+    <div class="btns" style="margin:0 0 14px">${S.dog.vet ? `<a class="btn" href="tel:${esc(S.dog.vet.replace(/[^\d+]/g, ''))}">📞 Tierarzt</a>` : ''}<button class="btn pri" id="d-food">🛒 Futter &amp; Co. einkaufen</button></div>
+    <h3 style="margin-top:0">Pflege &amp; Tierarzt</h3>
+    ${dogItems().map(it => { const d = dogDue(it), n = d ? Math.round((parse(d) - parse(t)) / 864e5) : null;
+      const st = !it.last ? '<span class="st">noch nicht eingetragen</span>' : n < 0 ? `<span class="st bad">seit ${-n} Tag${n === -1 ? '' : 'en'} fällig</span>` : n === 0 ? '<span class="st bad">heute fällig</span>' : n <= 14 ? `<span class="st warn">in ${n} Tag${n === 1 ? '' : 'en'} fällig</span>` : `<span class="st good">nächstes Mal: ${esc(fmtShort(d))}</span>`;
+      return `<div class="care" data-id="${esc(it.id)}"><span class="ic">${it.icon}</span><button class="cm"><b>${esc(it.name)}</b><small>${everyTxt(it)}${it.last ? ' · zuletzt ' + esc(fmtDM(it.last)) + it.last.slice(0, 4) : ''}</small>${st}</button><button class="ok">✔ Heute<br>erledigt</button></div>`; }).join('')}
+    <div class="btns"><button class="btn" id="d-add">+ Eigenen Punkt hinzufügen</button></div>
+    <p class="muted" style="font-size:12px;margin-top:10px">Am Fälligkeitstag kommt um 9 Uhr eine Erinnerung. Im Kalender steht es auch.</p>`;
+  bindBack();
+  $('#d-edit').onclick = editDogMeta; if($('#d-hint')) $('#d-hint').onclick = editDogMeta;
+  $('#d-food').onclick = () => { const n = addToShopping(splitIng(S.dog.food)); toast(n ? `🛒 ${n} Sachen auf die Einkaufsliste gesetzt` : 'Steht schon alles auf der Einkaufsliste'); };
+  $('#d-add').onclick = () => editCare(null);
+  $$('#sub .care').forEach(r => { const it = dogItems().find(x => x.id === r.dataset.id);
+    r.querySelector('.cm').onclick = () => editCare(it);
+    r.querySelector('.ok').onclick = () => { it.last = t; saveDog(); renderDog(); toast(`✔ ${it.name} erledigt – nächstes Mal: ${fmtShort(dogDue(it))}`); };
+  });
+}
+function editDogMeta(){
+  openSheet(`<h2>🐶 Hunde-Ecke</h2>
+    <label class="f">Name eures Hundes</label><input type="text" id="g-name" maxlength="20" value="${esc(S.dog.name)}" placeholder="z. B. Bello">
+    <label class="f">Telefon Tierarzt</label><input type="text" id="g-vet" inputmode="tel" maxlength="30" value="${esc(S.dog.vet)}" placeholder="z. B. 02421 123456">
+    <label class="f">Was gehört auf die Einkaufsliste? (mit Komma trennen)</label><input type="text" id="g-food" maxlength="200" value="${esc(S.dog.food)}">
+    <div class="btns"><button class="btn pri" id="g-save">Speichern</button><button class="btn" id="g-x">Abbrechen</button></div>`);
+  $('#g-x').onclick = closeSheet;
+  $('#g-save').onclick = () => { S.dog.name = $('#g-name').value.trim(); S.dog.vet = $('#g-vet').value.trim(); S.dog.food = $('#g-food').value.trim(); saveDog(); closeSheet(); renderDog(); };
+}
+function editCare(it){
+  const f = it ? {...it} : {icon:'💊', name:'', n:1, unit:'m', last:''};
+  const ICONS = ['💉', '🩺', '🪱', '🕷️', '💊', '✂️', '🛁', '🦷', '⚖️', '🐾', '📋', '⭐'];
+  openSheet(`<h2>${it ? 'Bearbeiten' : 'Neuer Punkt'}</h2>
+    <label class="f">Was?</label><input type="text" id="c-name" maxlength="30" value="${esc(f.name)}" placeholder="z. B. Krallen schneiden">
+    <label class="f">Symbol</label><div class="icons" id="c-icons">${ICONS.map(i => `<button data-i="${i}" class="${i === f.icon ? 'on' : ''}">${i}</button>`).join('')}</div>
+    <label class="f">Wie oft?</label>
+    <div class="two"><div><input type="number" id="c-n" min="1" max="99" value="${f.n}" style="width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 11px;color-scheme:dark"></div>
+      <div style="flex:2"><div class="seg" id="c-unit">${Object.entries(UNIT).map(([k, u]) => `<button data-k="${k}" class="${f.unit === k ? 'on' : ''}">${u[1]}</button>`).join('')}</div></div></div>
+    <label class="f">Zuletzt gemacht am</label><input type="date" id="c-last" value="${esc(f.last)}">
+    <div class="btns"><button class="btn pri" id="c-save">Speichern</button><button class="btn" id="c-x">Abbrechen</button></div>
+    ${it ? '<div class="btns" style="margin-top:8px"><button class="btn del" id="c-del">Punkt löschen</button></div>' : ''}`);
+  $$('#c-icons button').forEach(b => b.onclick = () => { f.icon = b.dataset.i; $$('#c-icons button').forEach(x => x.classList.toggle('on', x === b)); });
+  $$('#c-unit button').forEach(b => b.onclick = () => { f.unit = b.dataset.k; $$('#c-unit button').forEach(x => x.classList.toggle('on', x === b)); });
+  $('#c-x').onclick = closeSheet;
+  $('#c-save').onclick = () => {
+    f.name = $('#c-name').value.trim(); f.n = Math.max(1, parseInt($('#c-n').value, 10) || 1); f.last = $('#c-last').value;
+    if(!f.name){ toast('Bitte einen Namen eingeben'); return; }
+    if(it) Object.assign(it, f); else S.dog.items.push({...f, id:uid()});
+    saveDog(); closeSheet(); renderDog();
+  };
+  if(it) $('#c-del').onclick = () => { S.dog.items = S.dog.items.filter(x => x.id !== it.id); saveDog(); closeSheet(); renderDog(); };
+}
+
+/* ================= Müllabfuhr ================= */
+const WASTE_KINDS = {rest:{n:'Restmüll', c:'#8d93a3', e:'⚫'}, bio:{n:'Biotonne', c:'#a0703f', e:'🟤'}, papier:{n:'Papier', c:'#3d7bff', e:'🔵'}, gelb:{n:'Gelbe Tonne', c:'#ffd23f', e:'🟡'}, other:{n:'Sonstiges', c:'#a78bff', e:'🟣'}};
+S.waste = Object.assign({bins:[], dates:[], remind:true}, store('fm_waste') || {});
+const saveWaste = () => { store('fm_waste', S.waste); scheduleReminders(); autoBackup(); };
+function wasteOn(ds){
+  if(!S.waste) return [];
+  const out = [];
+  S.waste.bins.forEach(b => { if(ds >= b.start && Math.round((parse(ds) - parse(b.start)) / 864e5) % (7 * b.every) === 0) out.push({kind:b.kind, name:b.name, c:WASTE_KINDS[b.kind].c}); });
+  S.waste.dates.forEach(d => { if(d.date === ds && !out.some(o => o.name === d.name)) out.push({kind:d.kind, name:d.name, c:WASTE_KINDS[d.kind].c}); });
+  return out;
+}
+function renderWaste(){
+  const t = todayStr(), next = [];
+  for(let i = 0; i < 70 && next.length < 6; i++){ const ds = addDays(t, i), w = wasteOn(ds); if(w.length) next.push([ds, w, i]); }
+  $('#sub').innerHTML = subHead('🗑️ Müllabfuhr') + `
+    <h3 style="margin-top:0">Nächste Abholungen</h3>
+    ${next.length ? next.map(([ds, w, i]) => `<div class="care"><span class="ic">🗑️</span><div class="cm"><b>${i === 0 ? 'Heute' : i === 1 ? 'Morgen' : esc(fmtLong(ds))}</b><small>${w.map(x => `<i class="bin" style="background:${x.c}"></i>${esc(x.name)}`).join(' &nbsp; ')}</small></div></div>`).join('')
+      : '<div class="empty">Noch keine Tonnen eingerichtet.</div>'}
+    <h3>Eure Tonnen</h3>
+    ${S.waste.bins.map(b => `<button class="care" data-id="${esc(b.id)}" style="width:100%"><span class="ic"><i class="bin" style="background:${WASTE_KINDS[b.kind].c};width:22px;height:22px;margin:0"></i></span><span class="cm"><b>${esc(b.name)}</b><small>${b.every === 1 ? 'jede Woche' : `alle ${b.every} Wochen`} · ab ${esc(fmtShort(b.start))}</small></span></button>`).join('')}
+    <div class="btns" style="margin-top:6px"><button class="btn pri" id="w-add">+ Tonne hinzufügen</button><button class="btn" id="w-ics">📥 Kalender-Datei laden</button></div>
+    ${S.waste.dates.length ? `<div class="set-row"><span>${S.waste.dates.length} Termine aus Datei<br><small class="muted">bis ${esc(fmtShort(S.waste.dates.map(d => d.date).sort().pop()))}</small></span><button class="btn del" id="w-clr" style="flex:none;min-width:0;padding:7px 12px">Löschen</button></div>` : ''}
+    <div class="sw" style="padding:14px 0 4px"><span>🔔 Erinnerung am Vorabend (18 Uhr)</span><button class="tog${S.waste.remind ? ' on' : ''}" id="w-rem"></button></div>
+    <p class="muted" style="font-size:12px;margin-top:10px">Am genauesten: Abfuhrkalender eurer Straße bei der Gemeinde als <b>.ics-Datei</b> herunterladen und hier laden – dann stimmen auch Verschiebungen durch Feiertage. Alternativ jede Tonne mit Rhythmus eintragen.</p>`;
+  bindBack();
+  $('#w-add').onclick = () => editBin(null);
+  $('#w-ics').onclick = () => $('#ics-file').click();
+  $('#w-rem').onclick = () => { S.waste.remind = !S.waste.remind; $('#w-rem').classList.toggle('on', S.waste.remind); saveWaste(); };
+  if($('#w-clr')) $('#w-clr').onclick = () => { const b = $('#w-clr'); if(!b.dataset.sure){ b.dataset.sure = '1'; b.textContent = 'Sicher?'; return; } S.waste.dates = []; saveWaste(); renderWaste(); };
+  $$('#sub button.care').forEach(b => b.onclick = () => editBin(S.waste.bins.find(x => x.id === b.dataset.id)));
+}
+function editBin(b){
+  const f = b ? {...b} : {kind:'rest', name:WASTE_KINDS.rest.n, every:2, start:todayStr()};
+  openSheet(`<h2>${b ? 'Tonne bearbeiten' : 'Tonne hinzufügen'}</h2>
+    <label class="f">Art</label><div class="seg" id="b-kind">${Object.entries(WASTE_KINDS).map(([k, w]) => `<button data-k="${k}" class="${f.kind === k ? 'on' : ''}">${w.e}</button>`).join('')}</div>
+    <label class="f">Name</label><input type="text" id="b-name" maxlength="30" value="${esc(f.name)}">
+    <label class="f">Wie oft?</label><div class="seg" id="b-every">${[1, 2, 3, 4].map(n => `<button data-n="${n}" class="${f.every === n ? 'on' : ''}">${n === 1 ? 'Jede Woche' : `${n} Wochen`}</button>`).join('')}</div>
+    <label class="f">Nächster (oder letzter) Abholtag</label><input type="date" id="b-start" value="${esc(f.start)}">
+    <div class="btns"><button class="btn pri" id="b-save">Speichern</button><button class="btn" id="b-x">Abbrechen</button></div>
+    ${b ? '<div class="btns" style="margin-top:8px"><button class="btn del" id="b-del">Tonne entfernen</button></div>' : ''}`);
+  $$('#b-kind button').forEach(x => x.onclick = () => { const old = WASTE_KINDS[f.kind].n; f.kind = x.dataset.k; if(!$('#b-name').value.trim() || $('#b-name').value === old) $('#b-name').value = WASTE_KINDS[f.kind].n; $$('#b-kind button').forEach(y => y.classList.toggle('on', y === x)); });
+  $$('#b-every button').forEach(x => x.onclick = () => { f.every = +x.dataset.n; $$('#b-every button').forEach(y => y.classList.toggle('on', y === x)); });
+  $('#b-x').onclick = closeSheet;
+  $('#b-save').onclick = () => {
+    f.name = $('#b-name').value.trim() || WASTE_KINDS[f.kind].n; f.start = $('#b-start').value;
+    if(!f.start){ toast('Bitte einen Abholtag wählen'); return; }
+    if(b) Object.assign(b, f); else S.waste.bins.push({...f, id:uid()});
+    saveWaste(); closeSheet(); renderWaste();
+  };
+  if(b) $('#b-del').onclick = () => { S.waste.bins = S.waste.bins.filter(x => x.id !== b.id); saveWaste(); closeSheet(); renderWaste(); };
+}
+function wasteKindOf(txt){
+  const t = txt.toLowerCase();
+  if(/rest|grau|schwarz/.test(t)) return 'rest';
+  if(/bio|grün|braun/.test(t)) return 'bio';
+  if(/papier|pappe|blau|ppk/.test(t)) return 'papier';
+  if(/gelb|verpack|lvp|wertstoff/.test(t)) return 'gelb';
+  return 'other';
+}
+function importICS(text){
+  const lines = text.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '').split(/\r?\n/);
+  const out = []; let cur = null;
+  for(const ln of lines){
+    if(ln.startsWith('BEGIN:VEVENT')) cur = {};
+    else if(ln.startsWith('END:VEVENT')){ if(cur && cur.date && cur.sum) out.push(cur); cur = null; }
+    else if(cur){
+      const m = ln.match(/^DTSTART[^:]*:(\d{4})(\d{2})(\d{2})/); if(m) cur.date = `${m[1]}-${m[2]}-${m[3]}`;
+      if(/^SUMMARY[;:]/.test(ln)) cur.sum = ln.slice(ln.indexOf(':') + 1).replace(/\\([,;\\])/g, '$1').replace(/\\n/gi, ' ').trim();
+    }
+  }
+  if(!out.length){ toast('In der Datei wurden keine Termine gefunden'); return; }
+  const seen = new Set(S.waste.dates.map(d => d.date + '|' + d.name)); let n = 0;
+  out.forEach(e => { const name = e.sum.length > 30 ? e.sum.slice(0, 30) + '…' : e.sum, key = e.date + '|' + name;
+    if(!seen.has(key)){ seen.add(key); S.waste.dates.push({date:e.date, name, kind:wasteKindOf(e.sum)}); n++; } });
+  S.waste.dates.sort((a, b) => a.date.localeCompare(b.date));
+  saveWaste(); renderWaste(); renderAll(); toast(`📥 ${n} Abfuhrtermine geladen`);
+}
+(() => { const inp = document.createElement('input'); inp.type = 'file'; inp.id = 'ics-file'; inp.style.display = 'none';
+  inp.onchange = () => { const f = inp.files[0]; if(!f) return; const r = new FileReader(); r.onload = () => importICS(String(r.result)); r.readAsText(f); inp.value = ''; };
+  document.body.appendChild(inp); })();
 
 /* ================= Sicherung importieren (zusammenführen) ================= */
 function importBackup(text){
@@ -787,6 +1220,12 @@ function importBackup(text){
     const me = S.cfg.me, notify = S.cfg.notify; let nE, nL;
     [S.events, nE] = merge(S.events, d.events);
     if(Array.isArray(d.lists)) [S.lists, nL] = merge(S.lists, d.lists);
+    if(Array.isArray(d.notes)) [S.notes] = merge(S.notes, d.notes);
+    if(d.meals) Object.entries(d.meals).forEach(([k, v]) => { if(!S.meals[k] || (v.changed || 0) >= (S.meals[k].changed || 0)) S.meals[k] = v; });
+    if(Array.isArray(d.favs)) d.favs.forEach(f => { if(!S.favs.some(x => x.name.toLowerCase() === f.name.toLowerCase())) S.favs.push(f); });
+    if(d.dog && d.dog.items){ const mine = S.dog; S.dog = d.dog; S.dog.items.forEach(it => { const o = (mine.items || []).find(x => x.id === it.id); if(o && (o.last || '') > (it.last || '')) it.last = o.last; }); if(!S.dog.name) S.dog.name = mine.name; if(!S.dog.vet) S.dog.vet = mine.vet; }
+    if(d.waste && ((d.waste.bins || []).length || (d.waste.dates || []).length)) S.waste = Object.assign({bins:[], dates:[], remind:true}, d.waste);
+    store('fm_notes', S.notes); store('fm_meals', S.meals); store('fm_favmeals', S.favs); store('fm_dog', S.dog); store('fm_waste', S.waste);
     if(d.cfg) S.cfg = Object.assign(S.cfg, d.cfg, {me, notify});
     saveEvents(); saveLists(); saveCfg(); closeSheet(); renderAll(); toast(`Eingefügt: ${nE} neue Termine${nL ? `, ${nL} neue Listen` : ''}`);
   }catch(e){ toast('Das ist keine gültige Sicherung'); }
@@ -797,7 +1236,7 @@ function importBackup(text){
 
 /* ================= Automatische Sicherung (Dokumente/Familien-Multiversum) ================= */
 const BK_DIR = 'Familien-Multiversum';
-const backupJSON = () => JSON.stringify({app:'familien-multiversum', v:1, date:new Date().toISOString(), cfg:S.cfg, events:S.events, lists:S.lists || []});
+const backupJSON = () => JSON.stringify({app:'familien-multiversum', v:2, date:new Date().toISOString(), cfg:S.cfg, events:S.events, lists:S.lists || [], meals:S.meals, favs:S.favs, notes:S.notes, dog:S.dog, waste:S.waste});
 let _bkT;
 function autoBackup(){ if(!NATIVE) return; clearTimeout(_bkT); _bkT = setTimeout(() => writeBackup(false), 3000); }
 async function writeBackup(manual){
@@ -826,10 +1265,10 @@ function renderBackupInfo(){
 
 /* ================= Erinnerungen (lokale Benachrichtigungen) ================= */
 const REM_TIMED = [['none', 'Keine'], ['0', 'Beginn'], ['10', '10 Min'], ['30', '30 Min'], ['60', '1 Std'], ['1440', '1 Tag']];
-const REM_DAY = [['none', 'Keine'], ['d0', 'Am Tag 9 Uhr'], ['d1', 'Vortag 18 Uhr']];
+const REM_DAY = [['none', 'Keine'], ['d0', 'Am Tag'], ['d1', 'Vortag'], ['d3', '3 Tage vorher']];
 function normRemind(e){
-  const day = e.allDay || e.type === 'bday', r = e.remind;
-  if(!r) return day ? 'd0' : '30';
+  const day = e.allDay || YEARLY(e.type), r = e.remind;
+  if(!r) return e.type === 'anniv' ? 'd3' : day ? 'd0' : '30';
   if(r === 'none') return r;
   if(day && !r.startsWith('d')) return 'd0';
   if(!day && r.startsWith('d')) return '30';
@@ -853,23 +1292,37 @@ async function doSchedule(){
         const r = normRemind(e); if(r === 'none') continue;
         const at = parse(ds);
         if(r === 'd0') at.setHours(9, 0, 0, 0);
-        else if(r === 'd1'){ at.setDate(at.getDate() - 1); at.setHours(18, 0, 0, 0); }
+        else if(r === 'd1' || r === 'd3'){ at.setDate(at.getDate() - (r === 'd3' ? 3 : 1)); at.setHours(18, 0, 0, 0); }
         else { const [hh, mm] = (e.start || '09:00').split(':').map(Number); at.setHours(hh, mm, 0, 0); at.setTime(at.getTime() - Number(r) * 60000); }
         if(at.getTime() <= now + 5000) continue;
         let title, body;
+        const whenDay = r === 'd3' ? 'in 3 Tagen' : r === 'd1' ? 'morgen' : 'heute';
         if(e.type === 'bday'){
           const age = ageOn(e, ds);
           title = `🎂 ${e.title}`;
-          body = (r === 'd1' ? 'hat morgen Geburtstag' : 'hat heute Geburtstag') + (age > 0 ? ` und wird ${age}` : '') + (r === 'd1' ? ' – Geschenk? 🎁' : ' 🎉');
+          body = `hat ${whenDay} Geburtstag` + (age > 0 ? ` und wird ${age}` : '') + (r !== 'd0' ? ' – Geschenk? 🎁' : ' 🎉');
+        } else if(e.type === 'anniv'){
+          const n = ageOn(e, ds);
+          title = `💍 ${n > 0 ? n + '. ' : ''}${e.title}`;
+          body = `ist ${whenDay}` + (r !== 'd0' ? ' – schon was geplant? 💐' : ' 🥂');
         } else {
           title = `📅 ${e.title}`;
-          const when = e.allDay ? (r === 'd1' ? 'Morgen' : 'Heute') + (spanDays(e) ? ` · bis ${fmtShort(addDays(ds, spanDays(e)))}` : ' · ganztägig')
+          const when = e.allDay ? (r === 'd3' ? 'In 3 Tagen' : r === 'd1' ? 'Morgen' : 'Heute') + (spanDays(e) ? ` · bis ${fmtShort(addDays(ds, spanDays(e)))}` : ' · ganztägig')
             : ({'0':'Jetzt', '10':'In 10 Minuten', '30':'In 30 Minuten', '60':'In einer Stunde', '1440':'Morgen'}[r] || '') + ` · ${e.start} Uhr`;
           body = when + (e.note ? `\n${e.note}` : '');
         }
         list.push({id:hashId(e.id + ds), title, body, schedule:{at, allowWhileIdle:true}, extra:{date:ds}});
       }
     }
+    // Müllabfuhr: Vorabend 18 Uhr
+    if(S.waste.remind) for(let i = 0; i <= 45; i++){
+      const ds = addDays(t, i), w = wasteOn(ds); if(!w.length) continue;
+      const at = parse(ds); at.setDate(at.getDate() - 1); at.setHours(18, 0, 0, 0);
+      if(at.getTime() > now + 5000) list.push({id:hashId('waste' + ds), title:'🗑️ Morgen ist Müllabfuhr', body:w.map(x => (WASTE_KINDS[x.kind] || WASTE_KINDS.other).e + ' ' + x.name).join(' · ') + ' – Tonnen rausstellen', schedule:{at, allowWhileIdle:true}, extra:{date:ds}});
+    }
+    // Hund: am Fälligkeitstag 9 Uhr
+    dogItems().forEach(it => { const d = dogDue(it); if(!d) return; const at = parse(d); at.setHours(9, 0, 0, 0);
+      if(at.getTime() > now + 5000 && at.getTime() < now + 60 * 864e5) list.push({id:hashId('dog' + it.id + d), title:`🐶 ${it.name} ist fällig`, body:`${S.dog.name || 'Euer Hund'} · ${everyTxt(it)} · zuletzt am ${fmtDM(it.last)}${it.last.slice(0, 4)}`, schedule:{at, allowWhileIdle:true}, extra:{date:d}}); });
     list.sort((a, b) => a.schedule.at - b.schedule.at);
     if(list.length) await LN.schedule({notifications:list.slice(0, 60)});
   }catch(e){ console.log('Erinnerungen:', e); }

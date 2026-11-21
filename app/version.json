@@ -1,7 +1,7 @@
 {
-  "build": 8,
-  "version": "1.8",
-  "size": 5261954,
-  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.8/Familien-Multiversum.apk",
-  "notes": "Neu: Erinnerungen, automatische Sicherung und mehrtägige Termine"
+  "build": 9,
+  "version": "1.9",
+  "size": 5276099,
+  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.9/Familien-Multiversum.apk",
+  "notes": "Neu: Essensplan, Pinnwand, Hunde-Ecke, Müllabfuhr, Listen-Vorlagen, Countdowns, Jahrestage"
 }

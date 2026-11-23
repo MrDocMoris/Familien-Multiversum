@@ -118,6 +118,8 @@ def main():
                 print(f"  {st} {y}: Fehler {e}")
         uniq = sorted({(d["date"], d["name"]) for d in dates})
         result["strassen"][st] = [{"date": d, "name": n} for d, n in uniq]
+    if not any(result["strassen"].values()):
+        sys.exit("Keine Termine erhalten – alte Daten bleiben unverändert")
     os.makedirs("daten", exist_ok=True)
     fn = f"daten/muell-{ortsteil.lower()}.json"
     with open(fn, "w", encoding="utf-8") as f:

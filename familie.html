@@ -1134,27 +1134,65 @@ function editCare(it){
 const WASTE_KINDS = {rest:{n:'Restmüll', c:'#8d93a3', e:'⚫'}, bio:{n:'Biotonne', c:'#a0703f', e:'🟤'}, papier:{n:'Papier', c:'#3d7bff', e:'🔵'}, gelb:{n:'Gelbe Tonne', c:'#ffd23f', e:'🟡'}, other:{n:'Sonstiges', c:'#a78bff', e:'🟣'}};
 S.waste = Object.assign({bins:[], dates:[], remind:true}, store('fm_waste') || {});
 const saveWaste = () => { store('fm_waste', S.waste); scheduleReminders(); autoBackup(); };
+/* Automatische Abfuhrtermine (RegioEntsorgung, wöchentlich von GitHub geholt) */
+const MUELL_URL = 'https://raw.githubusercontent.com/MrDocMoris/Familien-Multiversum/main/daten/muell-irresheim.json';
+S.muellSrc = store('fm_muellsrc');
+WASTE_KINDS.gelb.n = 'Gelber Sack';
+function applyAuto(){
+  const a = S.waste.auto, src = S.muellSrc; if(!a || !src || !src.strassen) return false;
+  const list = src.strassen[a.street]; if(!list) return false;
+  const seen = new Set();
+  a.dates = list.map(d => ({date:d.date, kind:wasteKindOf(d.name)})).filter(d => { const k = d.date + d.kind; if(seen.has(k)) return false; seen.add(k); return true; });
+  a.stand = src.stand; return true;
+}
+async function fetchMuell(manual){
+  try{
+    const r = await fetch(MUELL_URL + '?t=' + Date.now(), {cache:'no-store'});
+    if(!r.ok) throw new Error(r.status);
+    S.muellSrc = await r.json(); store('fm_muellsrc', S.muellSrc); store('fm_muellfetch', Date.now());
+    if(applyAuto()) saveWaste();
+    if(manual) toast(`🔄 Abfuhrtermine aktualisiert (Stand ${fmtDM(S.muellSrc.stand)}${S.muellSrc.stand.slice(0, 4)})`);
+    if(S.view === 'sub' && S.sub === 'waste') renderWaste();
+    if(S.view === 'cal') renderAll();
+  }catch(e){ if(manual) toast('Abfuhrtermine konnten nicht geladen werden – Internet?'); }
+}
 function wasteOn(ds){
   if(!S.waste) return [];
   const out = [];
   S.waste.bins.forEach(b => { if(ds >= b.start && Math.round((parse(ds) - parse(b.start)) / 864e5) % (7 * b.every) === 0) out.push({kind:b.kind, name:b.name, c:WASTE_KINDS[b.kind].c}); });
   S.waste.dates.forEach(d => { if(d.date === ds && !out.some(o => o.name === d.name)) out.push({kind:d.kind, name:d.name, c:WASTE_KINDS[d.kind].c}); });
+  if(S.waste.auto) (S.waste.auto.dates || []).forEach(d => { if(d.date === ds && !out.some(o => o.kind === d.kind)) out.push({kind:d.kind, name:WASTE_KINDS[d.kind].n, c:WASTE_KINDS[d.kind].c}); });
   return out;
 }
 function renderWaste(){
   const t = todayStr(), next = [];
   for(let i = 0; i < 70 && next.length < 6; i++){ const ds = addDays(t, i), w = wasteOn(ds); if(w.length) next.push([ds, w, i]); }
+  const a = S.waste.auto, src = S.muellSrc, streets = src && src.strassen ? Object.keys(src.strassen).sort((x, y) => x.localeCompare(y)) : [];
+  const last = a && a.dates && a.dates.length ? a.dates.map(d => d.date).sort().pop() : null;
   $('#sub').innerHTML = subHead('🗑️ Müllabfuhr') + `
-    <h3 style="margin-top:0">Nächste Abholungen</h3>
+    <div class="card" style="padding:12px 14px;margin-bottom:6px">
+      <b>🔄 Automatisch: Nörvenich-Irresheim</b>
+      <p class="muted" style="margin:4px 0 10px;font-size:12px">Termine kommen direkt von RegioEntsorgung und werden jede Woche aktualisiert – auch Verschiebungen durch Feiertage.</p>
+      ${streets.length ? `<select id="w-street"><option value="">– Eure Straße wählen –</option>${streets.map(st => `<option ${a && a.street === st ? 'selected' : ''}>${esc(st)}</option>`).join('')}<option value="__off" ${!a ? '' : ''}>Automatik ausschalten</option></select>` : '<button class="btn pri" id="w-load" style="width:100%">Straßen laden</button>'}
+      ${a ? `<p class="muted" style="margin:8px 0 0;font-size:12px">${a.dates && a.dates.length ? `${a.dates.length} Termine bis ${esc(fmtShort(last))} · Stand ${esc(fmtDM(a.stand || ''))}${(a.stand || '').slice(0, 4)}` : 'Noch keine Termine'} · <a href="#" id="w-refresh" style="color:var(--acc)">jetzt aktualisieren</a></p>` : ''}
+    </div>
+    <h3 style="margin-top:14px">Nächste Abholungen</h3>
     ${next.length ? next.map(([ds, w, i]) => `<div class="care"><span class="ic">🗑️</span><div class="cm"><b>${i === 0 ? 'Heute' : i === 1 ? 'Morgen' : esc(fmtLong(ds))}</b><small>${w.map(x => `<i class="bin" style="background:${x.c}"></i>${esc(x.name)}`).join(' &nbsp; ')}</small></div></div>`).join('')
       : '<div class="empty">Noch keine Tonnen eingerichtet.</div>'}
-    <h3>Eure Tonnen</h3>
+    <h3>Weitere Tonnen (von Hand)</h3>
     ${S.waste.bins.map(b => `<button class="care" data-id="${esc(b.id)}" style="width:100%"><span class="ic"><i class="bin" style="background:${WASTE_KINDS[b.kind].c};width:22px;height:22px;margin:0"></i></span><span class="cm"><b>${esc(b.name)}</b><small>${b.every === 1 ? 'jede Woche' : `alle ${b.every} Wochen`} · ab ${esc(fmtShort(b.start))}</small></span></button>`).join('')}
     <div class="btns" style="margin-top:6px"><button class="btn pri" id="w-add">+ Tonne hinzufügen</button><button class="btn" id="w-ics">📥 Kalender-Datei laden</button></div>
     ${S.waste.dates.length ? `<div class="set-row"><span>${S.waste.dates.length} Termine aus Datei<br><small class="muted">bis ${esc(fmtShort(S.waste.dates.map(d => d.date).sort().pop()))}</small></span><button class="btn del" id="w-clr" style="flex:none;min-width:0;padding:7px 12px">Löschen</button></div>` : ''}
     <div class="sw" style="padding:14px 0 4px"><span>🔔 Erinnerung am Vorabend (18 Uhr)</span><button class="tog${S.waste.remind ? ' on' : ''}" id="w-rem"></button></div>
-    <p class="muted" style="font-size:12px;margin-top:10px">Am genauesten: Abfuhrkalender eurer Straße bei der Gemeinde als <b>.ics-Datei</b> herunterladen und hier laden – dann stimmen auch Verschiebungen durch Feiertage. Alternativ jede Tonne mit Rhythmus eintragen.</p>`;
+    <p class="muted" style="font-size:12px;margin-top:10px">Für andere Orte (z. B. nach dem Umzug): Abfuhrkalender als <b>.ics-Datei</b> laden oder Tonnen mit Rhythmus eintragen.</p>`;
   bindBack();
+  if($('#w-load')) $('#w-load').onclick = () => fetchMuell(true);
+  if($('#w-refresh')) $('#w-refresh').onclick = e => { e.preventDefault(); fetchMuell(true); };
+  if($('#w-street')) $('#w-street').onchange = () => {
+    const v = $('#w-street').value; if(!v) return;
+    if(v === '__off'){ S.waste.auto = null; saveWaste(); renderWaste(); renderAll(); toast('Automatik ausgeschaltet'); return; }
+    S.waste.auto = {street:v, dates:[]}; applyAuto(); saveWaste(); renderWaste(); renderAll(); toast(`🗑️ ${S.waste.auto.dates.length} Abfuhrtermine für ${v} übernommen`);
+  };
   $('#w-add').onclick = () => editBin(null);
   $('#w-ics').onclick = () => $('#ics-file').click();
   $('#w-rem').onclick = () => { S.waste.remind = !S.waste.remind; $('#w-rem').classList.toggle('on', S.waste.remind); saveWaste(); };
@@ -1353,6 +1391,7 @@ renderAll(); renderBadges();
 // Um Mitternacht / nach längerer Pause "Heute" aktualisieren
 document.addEventListener('visibilitychange', () => { if(!document.hidden) renderStats(); });
 setTimeout(() => checkUpdate(false), 2500);
+setTimeout(() => { const t = store('fm_muellfetch'); if(S.waste.auto || !S.muellSrc) if(!t || Date.now() - t > 2 * 864e5) fetchMuell(false); }, 3500);
 if(NATIVE){
   setTimeout(async () => { if(S.cfg.notify) await askNotify(false); scheduleReminders(); }, 1200);
   { const t = store('fm_lastbk'); if(!t || ymd(new Date(t)) !== todayStr()) setTimeout(() => writeBackup(false), 4000); }

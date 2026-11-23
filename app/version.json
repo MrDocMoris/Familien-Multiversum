@@ -1,7 +1,7 @@
 {
-  "build": 9,
-  "version": "1.9",
-  "size": 5276099,
-  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.9/Familien-Multiversum.apk",
-  "notes": "Neu: Essensplan, Pinnwand, Hunde-Ecke, Müllabfuhr, Listen-Vorlagen, Countdowns, Jahrestage"
+  "build": 10,
+  "version": "1.10",
+  "size": 5277449,
+  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.10/Familien-Multiversum.apk",
+  "notes": "Müllabfuhr Irresheim automatisch: Straße wählen, Termine von RegioEntsorgung"
 }

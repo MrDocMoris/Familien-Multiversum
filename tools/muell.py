@@ -74,12 +74,32 @@ def parse_ics(text):
     return out
 
 
+def osm_streets(ortsteil):
+    """Straßennamen im Ortsteil laut OpenStreetMap (Umkreis um den Ortskern)."""
+    q = f"""[out:json][timeout:60];
+node["place"]["name"="{ortsteil}"](50.70,6.50,50.90,6.75)->.c;
+way(around.c:1200)["highway"]["name"];
+out tags;"""
+    for url in ("https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"):
+        try:
+            r = requests.post(url, data={"data": q}, headers=HEAD, timeout=90); r.raise_for_status()
+            return {e["tags"]["name"] for e in r.json()["elements"]}
+        except Exception as e:
+            print("Overpass-Fehler:", url, e)
+    return set()
+
+
+norm = lambda x: " ".join(x.replace("\xa0", " ").split()).casefold()
+
+
 def main():
     ortsteil = sys.argv[1] if len(sys.argv) > 1 else "Irresheim"
     s = requests.Session()
     city, all_streets = streets(s)
     print(f"{len(all_streets)} Straßen in {CITY}. Beispiele: {all_streets[:15]}")
-    mine = [x for x in all_streets if ortsteil.lower() in x.lower()]
+    osm = {norm(n) for n in osm_streets(ortsteil)}
+    print(f"OpenStreetMap: {len(osm)} Straßen rund um {ortsteil}")
+    mine = [x for x in all_streets if norm(x) in osm or ortsteil.lower() in x.lower()]
     print(f"Treffer für {ortsteil}: {mine}")
     if not mine:
         sys.exit(f"Keine Straße mit '{ortsteil}' gefunden")

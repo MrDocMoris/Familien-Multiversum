@@ -22,6 +22,19 @@ Stand: 23.11.2026 (App-Version 1.10)
 - [ ] 📲 Termine zusätzlich im Handy-/Google-Kalender anzeigen
 - [ ] 🔐 App-Sperre mit Fingerabdruck oder PIN
 
+## Haushalt & Verträge
+- [ ] 📑 Verträge & Kündigungsfristen (Strom, Handy, Versicherungen, Internet) mit Erinnerung vor der Verlängerung
+- [ ] 🚗 Auto-Ecke – TÜV, Ölwechsel, Reifenwechsel (Oktober/Ostern), Versicherung mit Erinnerung
+- [ ] 🥫 Vorrat & Haltbarkeit – Warnung vor Ablauf, fehlende Sachen auf die Einkaufsliste
+
+## Essen
+- [ ] 📖 Rezeptsammlung – Anleitung, Foto, Link (z. B. Chefkoch), direkt aus dem Essensplan öffnen
+
+## Gemeinsame Zeit
+- [ ] 🏖️ Urlaubstage-Zähler – Resturlaub, eingetragene Urlaube ohne Wochenenden/Feiertage abziehen
+- [ ] 🎯 Gemeinsame Wünsche – Ausflüge, Restaurants, Konzerte; „gemacht ✓“ mit Datum
+- [ ] 📸 Jahresrückblick – Urlaube, Ausflüge, besondere Tage am Jahresende
+
 ## Kleinigkeiten
 - [ ] Suche über Termine, Listen und Notizen
 - [ ] Startbildschirm-Widget mit den Terminen von heute

@@ -80,9 +80,10 @@ def osm_streets(ortsteil):
 node["place"]["name"="{ortsteil}"](50.70,6.50,50.90,6.75)->.c;
 way(around.c:1200)["highway"]["name"];
 out tags;"""
-    for url in ("https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"):
+    oh = {"User-Agent": "FamilienMultiversum/1.0 (https://github.com/MrDocMoris/Familien-Multiversum)", "Accept": "application/json"}
+    for url in ("https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter", "https://maps.mail.ru/osm/tools/overpass/api/interpreter"):
         try:
-            r = requests.post(url, data={"data": q}, headers=HEAD, timeout=90); r.raise_for_status()
+            r = requests.post(url, data={"data": q}, headers=oh, timeout=120); r.raise_for_status()
             return {e["tags"]["name"] for e in r.json()["elements"]}
         except Exception as e:
             print("Overpass-Fehler:", url, e)
@@ -96,7 +97,7 @@ def main():
     ortsteil = sys.argv[1] if len(sys.argv) > 1 else "Irresheim"
     s = requests.Session()
     city, all_streets = streets(s)
-    print(f"{len(all_streets)} Straßen in {CITY}. Beispiele: {all_streets[:15]}")
+    print(f"{len(all_streets)} Straßen in {CITY}: {[norm(x) for x in all_streets]}")
     osm = {norm(n) for n in osm_streets(ortsteil)}
     print(f"OpenStreetMap: {len(osm)} Straßen rund um {ortsteil}")
     mine = [x for x in all_streets if norm(x) in osm or ortsteil.lower() in x.lower()]

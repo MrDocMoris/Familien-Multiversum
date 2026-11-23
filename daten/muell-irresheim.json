@@ -1,0 +1,385 @@
+{
+ "ort": "Nörvenich-Irresheim",
+ "stand": "2026-11-23",
+ "quelle": "RegioEntsorgung",
+ "strassen": {
+  "Am Heerweg": [
+   {
+    "date": "2026-11-26",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-10",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 2-Rad Behaelter 04-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 4-Rad Container 04-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-22",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   }
+  ],
+  "An der Goldkaul": [
+   {
+    "date": "2026-11-23",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-07",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 2-Rad Behaelter 04-woechentl."
+   },
+   {
+    "date": "2026-12-18",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   }
+  ],
+  "Annastraße": [
+   {
+    "date": "2026-11-23",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-11-30",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-07",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-12",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 2-Rad Behaelter 04-woechentl."
+   },
+   {
+    "date": "2026-12-18",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-28",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   }
+  ],
+  "Brunnenplatz": [
+   {
+    "date": "2026-11-23",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-11-30",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-07",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-12",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 2-Rad Behaelter 04-woechentl."
+   },
+   {
+    "date": "2026-12-18",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-28",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   }
+  ],
+  "Eggersheimer Straße": [
+   {
+    "date": "2026-11-23",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-11-30",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-07",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-12",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 2-Rad Behaelter 04-woechentl."
+   },
+   {
+    "date": "2026-12-18",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-28",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   }
+  ],
+  "Eifelstraße": [
+   {
+    "date": "2026-11-23",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-07",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 2-Rad Behaelter 04-woechentl."
+   },
+   {
+    "date": "2026-12-18",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   }
+  ],
+  "Fritz-Rey-Straße": [
+   {
+    "date": "2026-11-23",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-11-30",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-07",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-12",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 2-Rad Behaelter 04-woechentl."
+   },
+   {
+    "date": "2026-12-18",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-28",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   }
+  ],
+  "Hochkirchener Straße": [
+   {
+    "date": "2026-11-23",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-11-30",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-07",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-12",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 2-Rad Behaelter 04-woechentl."
+   },
+   {
+    "date": "2026-12-18",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-28",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   }
+  ],
+  "Prisselstraße": [
+   {
+    "date": "2026-11-23",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-11-30",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-07",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-12",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 4-Rad Container 04-woechentl."
+   },
+   {
+    "date": "2026-12-18",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-28",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   }
+  ],
+  "Rosenweg": [
+   {
+    "date": "2026-11-26",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-03",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-10",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 2-Rad Behaelter 04-woechentl."
+   },
+   {
+    "date": "2026-12-16",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-22",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   }
+  ],
+  "Weststraße": [
+   {
+    "date": "2026-11-26",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-03",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-04",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-10",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-14",
+    "name": "Papierabfuhr 2-Rad Behaelter 04-woechentl."
+   },
+   {
+    "date": "2026-12-16",
+    "name": "Bioabfall 2-Rad Behaelter 02-woechentl."
+   },
+   {
+    "date": "2026-12-21",
+    "name": "Gelbe Saecke"
+   },
+   {
+    "date": "2026-12-22",
+    "name": "Restabfall 2-Rad Behaelter 02-woechentl."
+   }
+  ]
+ }
+}

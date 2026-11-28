@@ -1,7 +1,7 @@
 {
-  "build": 10,
-  "version": "1.10",
-  "size": 5277449,
-  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.10/Familien-Multiversum.apk",
-  "notes": "Müllabfuhr Irresheim automatisch: Straße wählen, Termine von RegioEntsorgung"
+  "build": 11,
+  "version": "1.11",
+  "size": 4220581,
+  "apk": "https://github.com/MrDocMoris/Familien-Multiversum/releases/download/v1.11/Familien-Multiversum.apk",
+  "notes": "Optimierungen: Release-Build, Schrift in der App, Listen-Abgleich pro Eintrag, feste Straßenliste, neue Actions"
 }

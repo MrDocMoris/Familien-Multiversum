@@ -658,7 +658,7 @@ function openSettings(){
     const evs = share ? S.events.filter(e => !e.vis || e.vis === 'both') : S.events;
     const cfg = share ? {nameA:S.cfg.nameA, nameB:S.cfg.nameB, colorA:S.cfg.colorA, colorB:S.cfg.colorB} : S.cfg;
     const notes = share ? S.notes.filter(n => !n.vis || n.vis === 'both') : S.notes;
-    const data = JSON.stringify({app:'familien-multiversum', v:2, date:new Date().toISOString(), cfg, events:evs, lists:S.lists, meals:S.meals, favs:S.favs, notes, dog:S.dog, waste:S.waste});
+    const data = JSON.stringify({app:'familien-multiversum', v:2, date:new Date().toISOString(), cfg, events:evs, lists:S.lists, listsDel:S.listsDel, meals:S.meals, favs:S.favs, notes, dog:S.dog, waste:S.waste});
     try{ await navigator.clipboard.writeText(data); toast(share ? 'Kopiert – jetzt per WhatsApp schicken' : 'Sicherung kopiert'); }
     catch(e){ openSheet(`<h2>Sicherung</h2><p class="muted">Text markieren und kopieren:</p><textarea style="min-height:200px" readonly>${esc(data)}</textarea><div class="btns"><button class="btn" onclick="closeSheet()">Schließen</button></div>`); }
   };
@@ -737,6 +737,7 @@ S.lists = store('fm_lists') || [
   {id:uid(), name:'To-dos', icon:'✅', color:LIST_COLORS[0], items:[]},
 ];
 S.listId = null;
+S.listsDel = store('fm_listsdel') || [];
 const saveLists = () => { store('fm_lists', S.lists); renderBadges(); autoBackup(); };
 const curList = () => S.lists.find(l => l.id === S.listId);
 const grad = c => `linear-gradient(135deg,${c})`;
@@ -783,12 +784,12 @@ function renderList(){
   };
   $$('#ldetail .li').forEach(r => {
     const it = l.items.find(i => i.id === r.dataset.id);
-    r.querySelector('.ck').onclick = () => { it.done = !it.done; it.doneAt = it.done ? Date.now() : null; if(navigator.vibrate) navigator.vibrate(12); saveLists(); renderList(); };
+    r.querySelector('.ck').onclick = () => { it.done = !it.done; it.doneAt = it.done ? Date.now() : null; it.changed = Date.now(); if(navigator.vibrate) navigator.vibrate(12); saveLists(); renderList(); };
     r.querySelector('.tx').onclick = () => editItem(l, it);
   });
   if($('#l-clear')) $('#l-clear').onclick = () => {
     const b = $('#l-clear'); if(!b.dataset.sure){ b.dataset.sure = '1'; b.textContent = 'Sicher?'; return; }
-    l.items = l.items.filter(i => !i.done); saveLists(); renderList(); toast('Erledigte entfernt');
+    l.del = [...(l.del || []), ...l.items.filter(i => i.done).map(i => i.id)].slice(-500); l.items = l.items.filter(i => !i.done); saveLists(); renderList(); toast('Erledigte entfernt');
   };
 }
 
@@ -805,8 +806,8 @@ function editItem(l, it){
   $$('#i-who button').forEach(b => b.onclick = () => { who = b.dataset.k; $$('#i-who button').forEach(x => x.classList.toggle('on', x === b)); });
   $('#i-x').onclick = closeSheet;
   $('#i-save').onclick = () => { const t = $('#i-text').value.trim(); if(!t){ toast('Text darf nicht leer sein'); return; }
-    it.text = t; it.note = $('#i-note').value.trim(); it.who = who; saveLists(); closeSheet(); renderList(); };
-  $('#i-del').onclick = () => { l.items = l.items.filter(i => i.id !== it.id); saveLists(); closeSheet(); renderList(); toast('Eintrag gelöscht'); };
+    it.text = t; it.note = $('#i-note').value.trim(); it.who = who; it.changed = Date.now(); saveLists(); closeSheet(); renderList(); };
+  $('#i-del').onclick = () => { l.del = [...(l.del || []), it.id].slice(-500); l.items = l.items.filter(i => i.id !== it.id); saveLists(); closeSheet(); renderList(); toast('Eintrag gelöscht'); };
 }
 
 function listMenu(l){
@@ -819,7 +820,7 @@ function listMenu(l){
       <button class="btn del" id="m-del">Liste löschen</button>
     </div>`);
   $('#m-edit').onclick = () => editListMeta(l);
-  $('#m-uncheck').onclick = () => { l.items.forEach(i => { i.done = false; i.doneAt = null; }); saveLists(); closeSheet(); renderList(); toast('Alle Einträge wieder offen'); };
+  $('#m-uncheck').onclick = () => { l.items.forEach(i => { i.done = false; i.doneAt = null; i.changed = Date.now(); }); saveLists(); closeSheet(); renderList(); toast('Alle Einträge wieder offen'); };
   $('#m-share').onclick = async () => {
     const txt = `${l.icon} ${l.name}\n` + l.items.filter(i => !i.done).map(i => `• ${i.text}${i.note ? ` (${i.note})` : ''}`).join('\n');
     try{ await navigator.clipboard.writeText(txt); toast('Liste kopiert – z. B. in WhatsApp einfügen'); closeSheet(); }
@@ -827,7 +828,7 @@ function listMenu(l){
   };
   $('#m-del').onclick = () => {
     const b = $('#m-del'); if(!b.dataset.sure){ b.dataset.sure = '1'; b.textContent = `„${l.name}“ wirklich löschen?`; return; }
-    S.lists = S.lists.filter(x => x.id !== l.id); saveLists(); closeSheet(); showView('lists'); toast('Liste gelöscht');
+    S.listsDel = [...(S.listsDel || []), l.id]; store('fm_listsdel', S.listsDel); S.lists = S.lists.filter(x => x.id !== l.id); saveLists(); closeSheet(); showView('lists'); toast('Liste gelöscht');
   };
 }
 
@@ -1257,7 +1258,21 @@ function importBackup(text){
       theirs.forEach(x => { const o = m.get(x.id); if(!o || stamp(x) >= stamp(o)){ if(!o) n++; m.set(x.id, x); } }); return [[...m.values()], n]; };
     const me = S.cfg.me, notify = S.cfg.notify; let nE, nL;
     [S.events, nE] = merge(S.events, d.events);
-    if(Array.isArray(d.lists)) [S.lists, nL] = merge(S.lists, d.lists);
+    if(Array.isArray(d.lists)){ // Listen Eintrag für Eintrag zusammenführen
+      const istamp = i => Math.max(i.changed || 0, i.doneAt || 0, i.created || 0);
+      const delL = new Set([...(S.listsDel || []), ...(d.listsDel || [])]); S.listsDel = [...delL]; store('fm_listsdel', S.listsDel);
+      const byId = new Map(S.lists.map(l => [l.id, l])); nL = 0;
+      d.lists.forEach(tl => {
+        if(delL.has(tl.id)) return; const ml = byId.get(tl.id);
+        if(!ml){ byId.set(tl.id, tl); nL++; return; }
+        const del = new Set([...(ml.del || []), ...(tl.del || [])]), items = new Map(ml.items.map(i => [i.id, i]));
+        (tl.items || []).forEach(ti => { const mi = items.get(ti.id); if(!mi || istamp(ti) > istamp(mi)) items.set(ti.id, ti); });
+        ml.items = [...items.values()].filter(i => !del.has(i.id)).sort((a, b) => (b.created || 0) - (a.created || 0));
+        ml.del = [...del].slice(-500);
+        if((tl.changed || 0) > (ml.changed || 0)) Object.assign(ml, {name:tl.name, icon:tl.icon, color:tl.color, changed:tl.changed});
+      });
+      S.lists = [...byId.values()].filter(l => !delL.has(l.id));
+    }
     if(Array.isArray(d.notes)) [S.notes] = merge(S.notes, d.notes);
     if(d.meals) Object.entries(d.meals).forEach(([k, v]) => { if(!S.meals[k] || (v.changed || 0) >= (S.meals[k].changed || 0)) S.meals[k] = v; });
     if(Array.isArray(d.favs)) d.favs.forEach(f => { if(!S.favs.some(x => x.name.toLowerCase() === f.name.toLowerCase())) S.favs.push(f); });
@@ -1274,7 +1289,7 @@ function importBackup(text){
 
 /* ================= Automatische Sicherung (Dokumente/Familien-Multiversum) ================= */
 const BK_DIR = 'Familien-Multiversum';
-const backupJSON = () => JSON.stringify({app:'familien-multiversum', v:2, date:new Date().toISOString(), cfg:S.cfg, events:S.events, lists:S.lists || [], meals:S.meals, favs:S.favs, notes:S.notes, dog:S.dog, waste:S.waste});
+const backupJSON = () => JSON.stringify({app:'familien-multiversum', v:2, date:new Date().toISOString(), cfg:S.cfg, events:S.events, lists:S.lists || [], listsDel:S.listsDel || [], meals:S.meals, favs:S.favs, notes:S.notes, dog:S.dog, waste:S.waste});
 let _bkT;
 function autoBackup(){ if(!NATIVE) return; clearTimeout(_bkT); _bkT = setTimeout(() => writeBackup(false), 3000); }
 async function writeBackup(manual){

@@ -98,8 +98,14 @@ def main():
     s = requests.Session()
     city, all_streets = streets(s)
     print(f"{len(all_streets)} Straßen in {CITY}: {[norm(x) for x in all_streets]}")
-    osm = {norm(n) for n in osm_streets(ortsteil)}
-    print(f"OpenStreetMap: {len(osm)} Straßen rund um {ortsteil}")
+    fixed = f"tools/strassen-{ortsteil.lower()}.json"
+    if os.path.exists(fixed):
+        with open(fixed, encoding="utf-8") as f:
+            osm = {norm(n) for n in json.load(f)["strassen"]}
+        print(f"Feste Straßenliste: {len(osm)} Straßen ({fixed})")
+    else:
+        osm = {norm(n) for n in osm_streets(ortsteil)}
+        print(f"OpenStreetMap: {len(osm)} Straßen rund um {ortsteil}")
     mine = [x for x in all_streets if norm(x) in osm or ortsteil.lower() in x.lower()]
     print(f"Treffer für {ortsteil}: {mine}")
     if not mine:

@@ -6,7 +6,8 @@ Euer gemeinsamer Familienkalender – im gleichen Stil und mit dem gleichen Upda
 - `familie.html` – die komplette App (HTML/CSS/JS), läuft auch einfach im Browser zum Testen
 - `assets/icon.svg` – App-Icon
 - `.github/workflows/build-apk.yml` – baut bei jeder Änderung die Android-App (Capacitor),
-  signiert sie immer mit `signing/debug.keystore`, veröffentlicht sie als Release
+  signiert sie immer mit dem geheimen Schlüssel aus dem GitHub-Secret `FAMILIE_KEYSTORE_B64`,
+  veröffentlicht sie als Release
   und schreibt `app/version.json`
 - `app/version.json` – daraus liest die App beim Start, ob es eine neue Version gibt
 

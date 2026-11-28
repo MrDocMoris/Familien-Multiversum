@@ -31,22 +31,17 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Signatur-Schluessel (Secret bevorzugt, sonst aus dem Repo)
+      - name: Signatur-Schluessel aus GitHub-Secret
         env:
           KS_B64: ${{ secrets.FAMILIE_KEYSTORE_B64 }}
         run: |
-          if [ -n "$KS_B64" ]; then mkdir -p signing; echo "$KS_B64" | base64 -d > signing/debug.keystore; echo "Schluessel aus Secret"; fi
-          if [ ! -f signing/debug.keystore ]; then
-            mkdir -p signing
-            keytool -genkeypair -keystore signing/debug.keystore -storepass android -keypass android \
-              -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=FamilienMultiversum,O=FamilienMultiversum,C=DE"
-            git config user.name "github-actions"
-            git config user.email "github-actions@users.noreply.github.com"
-            git add signing/debug.keystore
-            git commit -m "Signatur-Schluessel angelegt"
-            git pull --rebase origin main
-            git push
+          if [ -z "$KS_B64" ]; then
+            echo "::error::Secret FAMILIE_KEYSTORE_B64 fehlt (Settings > Secrets and variables > Actions)"; exit 1
           fi
+          mkdir -p "$RUNNER_TEMP/sig"
+          echo "$KS_B64" | tr -d ' \n\r' | base64 -d > "$RUNNER_TEMP/sig/familie.keystore"
+          keytool -list -keystore "$RUNNER_TEMP/sig/familie.keystore" -storepass android > /dev/null
+          echo "FAMILIE_KEYSTORE=$RUNNER_TEMP/sig/familie.keystore" >> "$GITHUB_ENV"
 
       - name: Projekt vorbereiten
         run: |
@@ -109,12 +104,12 @@ jobs:
           npx cap sync android
           cd android
           chmod +x gradlew
-          FAMILIE_KEYSTORE="$GITHUB_WORKSPACE/signing/debug.keystore" ./gradlew assembleRelease --no-daemon
+          ./gradlew assembleRelease --no-daemon
           cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/Familien-Multiversum.apk"
           # Prüfen: APK muss mit dem Schlüssel aus dem Repo signiert sein
           AS=$(ls -d $ANDROID_HOME/build-tools/*/ | sort -V | tail -1)apksigner
           A=$("$AS" verify --print-certs "$GITHUB_WORKSPACE/Familien-Multiversum.apk" | grep -i "SHA-256 digest" | head -1 | awk '{print $NF}' | tr -d ':' | tr 'a-f' 'A-F')
-          K=$(keytool -list -v -keystore "$GITHUB_WORKSPACE/signing/debug.keystore" -storepass android -alias androiddebugkey | grep -i "SHA256:" | head -1 | awk '{print $NF}' | tr -d ':' | tr 'a-f' 'A-F')
+          K=$(keytool -list -v -keystore "$FAMILIE_KEYSTORE" -storepass android -alias androiddebugkey | grep -i "SHA256:" | head -1 | awk '{print $NF}' | tr -d ':' | tr 'a-f' 'A-F')
           echo "APK: $A"; echo "Key: $K"
           [ -n "$A" ] && [ "$A" = "$K" ] || { echo "FEHLER: falsche Signatur"; exit 1; }
 

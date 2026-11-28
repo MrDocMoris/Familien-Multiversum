@@ -10,3 +10,6 @@
 .cxx
 # Firebase-Konfiguration nicht ins öffentliche Repo
 app/google-services.json
+signing/
+*.keystore
+*.jks
